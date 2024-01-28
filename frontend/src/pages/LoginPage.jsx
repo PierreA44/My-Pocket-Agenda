@@ -1,3 +1,8 @@
 export default function LoginPage() {
-  return <h1>LoginPage</h1>;
+  return (
+    <form>
+      <input type="email" name="" id="" />
+      <input type="password" name="" id="" />
+    </form>
+  );
 }
