@@ -27,13 +27,23 @@ const validatePassword = async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await tables.user.readByEmail(email);
+    if (user) {
+      const validated = await argon2.verify(user.password, password);
 
-    const validated = await argon2.verify(user.password, password);
-
-    if (validated) {
-      next();
+      if (validated) {
+        req.body.id = user.id;
+        delete req.body.email;
+        delete req.body.password;
+        next();
+      } else {
+        res
+          .status(401)
+          .json({ message: "Combinaison email / mot-de-passe invalide" });
+      }
     } else {
-      res.status(401).json({ message: "Combinaison email/password invalide" });
+      res
+        .status(401)
+        .json({ message: "Combinaison email / mot-de-passe invalide" });
     }
   } catch (error) {
     next(error);

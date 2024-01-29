@@ -26,17 +26,18 @@ export default function RegistrationPage() {
 
   return (
     <section className="flex flex-col items-center gap-4 mt-8 bg-beige h-screen">
-      <h1 className="text-dkGreen text-2xl text-center font-lexend">
-        Veuillez remplir ces champs pour vous inscrire
+      <h1 className="text-dkGreen text-3xl text-center font-lexend">
+        Inscription
       </h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="font-commi font-bold flex flex-col items-center gap-2 text-green text-xl bg-sand p-6 rounded-md"
+        className="shadow font-commi flex flex-col items-center gap-2 text-green text-2xl bg-sand p-6 rounded-md bg-opacity-80"
       >
         <label htmlFor="pseudo">Pseudo :</label>
         <input
           type="text"
           name="pseudo"
+          className="rounded-md"
           {...register("pseudo", {
             required: "Ce champs est obligatoire",
             minLength: {
@@ -57,6 +58,7 @@ export default function RegistrationPage() {
         <input
           type="email"
           name="email"
+          className="rounded-md"
           {...register("email", {
             required: "Ce champs est obligatoire",
             pattern: {
@@ -78,10 +80,11 @@ export default function RegistrationPage() {
         <input
           type="email"
           name="confirm-email"
+          className="rounded-md"
           {...register("confirmEmail", {
             required: "Vous devez confirmer votre email",
             validate: (value) =>
-              value === watch("mail") || "Emails non identiques",
+              value === watch("email") || "Emails non identiques",
           })}
         />
         {errors.confirmEmail && (
@@ -96,6 +99,7 @@ export default function RegistrationPage() {
         <input
           type="password"
           name="password"
+          className="rounded-md"
           {...register("password", {
             required: "Ce champs est obligatoire",
             pattern: {
@@ -117,6 +121,7 @@ export default function RegistrationPage() {
         <input
           type="password"
           name="confirm-password"
+          className="rounded-md"
           {...register("confirmPassword", {
             required: "Vous devez confirmer votre mot de passe",
             validate: (value) =>
@@ -133,7 +138,7 @@ export default function RegistrationPage() {
         )}
         <button
           type="submit"
-          className="bg-green text-sand font-lexend active:bg-dkGreen shadow px-2 py-1 mt-4 rounded-md"
+          className="bg-green text-sand font-bold active:bg-dkGreen shadow px-2 py-1 mt-4 rounded-md"
         >
           Créer mon compte
         </button>
