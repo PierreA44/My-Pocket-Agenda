@@ -9,3 +9,14 @@ CREATE TABLE user (
   registration_date DATETIME NOT NULL DEFAULT NOW(),
   isAdmin BOOLEAN DEFAULT 0
 );
+
+CREATE TABLE todo (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  note VARCHAR(250) NOT NULL,
+  creation_date DATETIME NOT NULL DEFAULT NOW(),
+  user_id INT NOT NULL,
+  CONSTRAINT FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+
+INSERT INTO user (pseudo, email, password) VALUES ('Toto', 'toto@toto.fr', '$argon2id$v=19$m=19456,t=2,p=1$68LocxlqXJHuGHSC+ZZJJQ$509Az27f75To7qepOediWrt3fIYUmixGzB6w+n+9zzc');

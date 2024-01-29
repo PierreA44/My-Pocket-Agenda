@@ -47,7 +47,10 @@ export default function LoginPage() {
           {...register("email", { required: "Veuillez renseigner votre mail" })}
         />
         {errors.email && (
-          <p role="alert" className="bg-red-600 text-beige text-sm p-0.5">
+          <p
+            role="alert"
+            className="bg-red-600 text-beige text-sm px-1 py-0.5 rounded-md"
+          >
             {errors.email?.message}
           </p>
         )}
@@ -61,7 +64,10 @@ export default function LoginPage() {
           })}
         />
         {errors.password && (
-          <p role="alert" className="bg-red-600 text-beige text-sm p-0.5">
+          <p
+            role="alert"
+            className="bg-red-600 text-beige text-sm px-1 py-0.5 rounded-md"
+          >
             {errors.password?.message}
           </p>
         )}

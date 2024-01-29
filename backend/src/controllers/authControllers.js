@@ -8,7 +8,7 @@ const add = async (req, res, next) => {
     const user = await tables.user.read(Number(id));
 
     const token = await jwt.sign(
-      { sub: user.id, mail: user.email, isAdmin: user.isAdmin },
+      { sub: user.id, email: user.email, isAdmin: user.isAdmin },
       process.env.APP_SECRET,
       {
         expiresIn: "2h",
