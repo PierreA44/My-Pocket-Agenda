@@ -4,11 +4,11 @@ const router = express.Router();
 
 /* ************************************************************************* */
 // Define Your API Routes Here
-const itemRouter = require("./routers/itemRouter");
+const userRouter = require("./routers/userRouter");
 
 /* ************************************************************************* */
 
-router.use("/item", itemRouter);
+router.use("/user", userRouter);
 
 /* ************************************************************************* */
 

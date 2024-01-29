@@ -26,36 +26,45 @@ export default function LoginPage() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col items-center gap-2 mt-12"
-    >
-      <h1>Connexion</h1>
-      <label htmlFor="email">Email :</label>
-      <input
-        type="email"
-        name="email"
-        {...register("email", { required: "Veuillez renseigner votre mail" })}
-      />
-      {errors.email && (
-        <p role="alert" className="bg-red-600 text-beige text-sm p-0.5">
-          {errors.email?.message}
-        </p>
-      )}
-      <label htmlFor="password">Mot de passe :</label>
-      <input
-        type="password"
-        name="password"
-        {...register("password", {
-          required: "Veuillez renseigner votre mot-de-passe",
-        })}
-      />
-      {errors.password && (
-        <p role="alert" className="bg-red-600 text-beige text-sm p-0.5">
-          {errors.password?.message}
-        </p>
-      )}
-      <button type="submit">Se connecter</button>
-    </form>
+    <section className="flex flex-col items-center gap-4 mt-8 bg-beige h-screen">
+      <h1 className="text-dkGreen text-2xl text-center font-lexend">
+        Connexion
+      </h1>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="font-commi font-bold flex flex-col items-center gap-2 text-green text-xl bg-sand p-6 rounded-md"
+      >
+        <label htmlFor="email">Email :</label>
+        <input
+          type="email"
+          name="email"
+          {...register("email", { required: "Veuillez renseigner votre mail" })}
+        />
+        {errors.email && (
+          <p role="alert" className="bg-red-600 text-beige text-sm p-0.5">
+            {errors.email?.message}
+          </p>
+        )}
+        <label htmlFor="password">Mot de passe :</label>
+        <input
+          type="password"
+          name="password"
+          {...register("password", {
+            required: "Veuillez renseigner votre mot-de-passe",
+          })}
+        />
+        {errors.password && (
+          <p role="alert" className="bg-red-600 text-beige text-sm p-0.5">
+            {errors.password?.message}
+          </p>
+        )}
+        <button
+          type="submit"
+          className="bg-green text-sand font-lexend active:bg-dkGreen shadow px-2 py-1 mt-4 rounded-md"
+        >
+          Se connecter
+        </button>
+      </form>
+    </section>
   );
 }
