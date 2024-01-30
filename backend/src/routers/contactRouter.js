@@ -9,10 +9,6 @@ const {
   destroy,
 } = require("../controllers/contactControllers");
 
-const { verifyToken } = require("../services/verifyToken");
-
-router.use(verifyToken);
-
 router.get("/", read);
 
 router.post("/", add);

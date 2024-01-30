@@ -9,11 +9,15 @@ const authRouter = require("./routers/authRouter");
 const todoRouter = require("./routers/todoRouter");
 const contactRouter = require("./routers/contactRouter");
 const rdvRouter = require("./routers/rdvRouter");
+const { verifyToken } = require("./services/verifyToken");
 
 /* ************************************************************************* */
 
 router.use("/user", userRouter);
 router.use("/auth", authRouter);
+
+router.use(verifyToken);
+
 router.use("/todo", todoRouter);
 router.use("/contact", contactRouter);
 router.use("/rdv", rdvRouter);

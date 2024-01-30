@@ -30,7 +30,7 @@ CREATE TABLE contact (
 CREATE TABLE rdv (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(150) NOT NULL,
-  shedulled_date DATETIME NOT NULL,
+  scheduled_date DATETIME NOT NULL,
   start_hour_time INT NOT NULL,
   start_minute_time INT NOT NULL,
   end_hour_time INT NOT NULL,
