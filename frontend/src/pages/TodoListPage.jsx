@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
 import Todo from "../components/todos/Todo";
 import plus from "../assets/plus.png";
+import edition from "../assets/edition.png";
 import CreateTodo from "../components/todos/CreateTodo";
 
 export default function TodolistPage() {
@@ -11,21 +12,37 @@ export default function TodolistPage() {
   const [todos, setTodos] = useState([]);
   const [isUpdated, setIsUpdated] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
+  const [isClicked, setIsClicked] = useState(false);
+
+  const navigate = useNavigate();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const openModal = () => setIsModalVisible(true);
   const closeModal = () => setIsModalVisible(false);
+
+  const handleClick = () => {
+    if (isClicked) {
+      setIsClicked(false);
+    } else {
+      setIsClicked(true);
+    }
+  };
+
   useEffect(() => {
     if (isMounted || isUpdated) {
-      axios
-        .get(`${import.meta.env.VITE_BACKEND_URL}/api/todo`, {
-          headers: {
-            Authorization: `Bearer ${auth}`,
-          },
-        })
-        .then((res) => setTodos(res.data));
-      setIsMounted(false);
-      setIsUpdated(false);
+      if (auth) {
+        axios
+          .get(`${import.meta.env.VITE_BACKEND_URL}/api/todo`, {
+            headers: {
+              Authorization: `Bearer ${auth}`,
+            },
+          })
+          .then((res) => setTodos(res.data));
+        setIsMounted(false);
+        setIsUpdated(false);
+      } else {
+        navigate("/");
+      }
     }
   }, [isMounted, isUpdated]);
 
@@ -40,6 +57,8 @@ export default function TodolistPage() {
             note={todo.note}
             creationDate={todo.creation_date}
             setIsUpdated={setIsUpdated}
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
           />
         ))}
       </div>
@@ -52,6 +71,13 @@ export default function TodolistPage() {
       >
         <CreateTodo closeModal={closeModal} setIsUpdated={setIsUpdated} />
       </Modal>
+      <button
+        type="button"
+        className="absolute bottom-5 left-5 bg-green p-2.5 rounded-full border-black border-4"
+        onClick={handleClick}
+      >
+        <img src={edition} alt="modifier/supprimer" width="48" />
+      </button>
       <button
         type="button"
         title="nouvelle note"

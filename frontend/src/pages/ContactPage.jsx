@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
 import CreateContact from "../components/contacts/CreateContact";
 import plus from "../assets/plus.png";
+import edition from "../assets/edition.png";
 import Contact from "../components/contacts/Contact";
 
 export default function ContactPage() {
@@ -11,22 +12,37 @@ export default function ContactPage() {
   const [contacts, setContacts] = useState([]);
   const [isUpdated, setIsUpdated] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
+  const [isClicked, setIsClicked] = useState(false);
+
+  const navigate = useNavigate();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const openModal = () => setIsModalVisible(true);
   const closeModal = () => setIsModalVisible(false);
 
+  const handleClick = () => {
+    if (isClicked) {
+      setIsClicked(false);
+    } else {
+      setIsClicked(true);
+    }
+  };
+
   useEffect(() => {
     if (isMounted || isUpdated) {
-      axios
-        .get(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, {
-          headers: {
-            Authorization: `Bearer ${auth}`,
-          },
-        })
-        .then((res) => setContacts(res.data));
-      setIsMounted(false);
-      setIsUpdated(false);
+      if (auth) {
+        axios
+          .get(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, {
+            headers: {
+              Authorization: `Bearer ${auth}`,
+            },
+          })
+          .then((res) => setContacts(res.data));
+        setIsMounted(false);
+        setIsUpdated(false);
+      } else {
+        navigate("/");
+      }
     }
   }, [isUpdated, isMounted]);
 
@@ -41,6 +57,8 @@ export default function ContactPage() {
             name={c.name}
             email={c.email}
             setIsUpdated={setIsUpdated}
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
           />
         ))}
       </div>
@@ -55,11 +73,18 @@ export default function ContactPage() {
       </Modal>
       <button
         type="button"
+        className="absolute bottom-5 left-5 bg-green p-2.5 rounded-full border-black border-4"
+        onClick={handleClick}
+      >
+        <img src={edition} alt="modifier/supprimer" width="48" />
+      </button>
+      <button
+        type="button"
         title="nouveau contact"
         onClick={openModal}
         className="absolute bottom-5 right-5 bg-green rounded-full w-fit p-1 border-4 border-black"
       >
-        <img src={plus} alt="plus" width="60px" />
+        <img src={plus} alt="plus" width="60" />
       </button>
     </section>
   );

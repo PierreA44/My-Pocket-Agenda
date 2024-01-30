@@ -6,7 +6,7 @@ import closeButton from "../../assets/bouton-fermer.png";
 import mail from "../../assets/email.png";
 // import phone from "../../assets/telephone.png";
 
-export default function Contact({ id, name, email, setIsUpdated }) {
+export default function Contact({ id, name, email, setIsUpdated, isClicked }) {
   const { auth } = useOutletContext();
 
   const deleteContact = () => {
@@ -28,14 +28,16 @@ export default function Contact({ id, name, email, setIsUpdated }) {
 
   return (
     <div className="relative flex flex-col items-baseline gap-2 bg-sand py-2 px-4 w-fit rounded-md">
-      <button
-        type="button"
-        title="Supprimer le contact"
-        className="absolute w-4 -top-1 -right-1"
-        onClick={deleteContact}
-      >
-        <img src={closeButton} alt="fermer" />
-      </button>
+      {isClicked && (
+        <button
+          type="button"
+          title="Supprimer le contact"
+          className="absolute w-4 -top-1 -right-1"
+          onClick={deleteContact}
+        >
+          <img src={closeButton} alt="supprimer" />
+        </button>
+      )}
       <h1 className="text-3xl first-letter:capitalize">{name}</h1>
       <div className="flex flex-row gap-2 items-center">
         <img src={mail} alt="arobase" width="20" />
@@ -50,4 +52,5 @@ Contact.propTypes = {
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   setIsUpdated: PropTypes.func.isRequired,
+  isClicked: PropTypes.bool.isRequired,
 };

@@ -31,6 +31,10 @@ CREATE TABLE rdv (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(150) NOT NULL,
   shedulled_date DATETIME NOT NULL,
+  start_hour_time INT NOT NULL,
+  start_minute_time INT NOT NULL,
+  end_hour_time INT NOT NULL,
+  end_minute_time INT NOT NULL,
   description TEXT,
   user_id INT NOT NULL,
   CONSTRAINT FOREIGN KEY (user_id) REFERENCES user(id)

@@ -5,7 +5,13 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import closeButton from "../../assets/bouton-fermer.png";
 
-export default function Todo({ id, note, creationDate, setIsUpdated }) {
+export default function Todo({
+  id,
+  note,
+  creationDate,
+  setIsUpdated,
+  isClicked,
+}) {
   const { auth } = useOutletContext();
   moment.locale("fr");
   const deleteTodo = () => {
@@ -27,14 +33,16 @@ export default function Todo({ id, note, creationDate, setIsUpdated }) {
 
   return (
     <div className="relative flex flex-col items-baseline gap-2 bg-sand py-2 px-4 w-fit rounded-md">
-      <button
-        type="button"
-        title="supprimer la note"
-        className="absolute w-4 -top-1 -right-1"
-        onClick={deleteTodo}
-      >
-        <img src={closeButton} alt="fermer" />
-      </button>
+      {isClicked && (
+        <button
+          type="button"
+          title="supprimer la note"
+          className="absolute w-4 -top-1 -right-1"
+          onClick={deleteTodo}
+        >
+          <img src={closeButton} alt="fermer" />
+        </button>
+      )}
       <p className="text-[10px]">{moment(creationDate).format("LL")}</p>
       <h1 className="text-3xl first-letter:capitalize">{note}</h1>
     </div>
@@ -46,4 +54,5 @@ Todo.propTypes = {
   note: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
   setIsUpdated: PropTypes.func.isRequired,
+  isClicked: PropTypes.bool.isRequired,
 };

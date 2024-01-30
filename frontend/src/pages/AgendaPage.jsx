@@ -1,19 +1,34 @@
 import { useEffect, useState } from "react";
-// import { useOutletContext } from "react-router-dom";
-// import axios from "axios";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import axios from "axios";
 import Modal from "react-modal";
 import CreateRDV from "../components/agenda/CreateRDV";
 import plus from "../assets/plus.png";
 
 export default function AgendaPage() {
-  // const { auth } = useOutletContext();
-  // const [rdv, setRdv] = useState();
+  const { auth } = useOutletContext();
+  const [rdv, setRdv] = useState();
+  const [isUpdated, setIsUpdated] = useState(false);
+  const [isMounted, setIsMounted] = useState(true);
+  const navigate = useNavigate();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const openModal = () => setIsModalVisible(true);
   const closeModal = () => setIsModalVisible(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (isMounted || isUpdated) {
+      if (auth) {
+        axios.get("url").then((res) => setRdv(res.data));
+      } else {
+        navigate("/");
+      }
+      setIsMounted(false);
+      setIsUpdated(false);
+    }
+  }, [isMounted, isUpdated]);
+
+  console.info(rdv);
 
   return (
     <section className="flex flex-col font-lexend gap-2">
@@ -25,7 +40,7 @@ export default function AgendaPage() {
         overlayClassName="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center"
         className="max-w-md mx-auto"
       >
-        <CreateRDV />
+        <CreateRDV closeModal={closeModal} setIsUpdated={setIsUpdated} />
       </Modal>
       <button
         type="button"
