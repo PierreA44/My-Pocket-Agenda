@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 import closeButton from "../../assets/bouton-fermer.png";
 
-export default function CreateTodo({ closeModal, setIsUpdated }) {
+export default function CreateContact({ closeModal, setIsUpdated }) {
   const { auth } = useOutletContext();
   const {
     register,
@@ -18,7 +18,7 @@ export default function CreateTodo({ closeModal, setIsUpdated }) {
   const onSubmit = (data) => {
     try {
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/api/todo`, data, {
+        .post(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, data, {
           headers: {
             Authorization: `Bearer ${auth}`,
           },
@@ -39,18 +39,32 @@ export default function CreateTodo({ closeModal, setIsUpdated }) {
       onSubmit={handleSubmit(onSubmit)}
       className="relative shadow font-commi flex flex-col items-center gap-2 text-green text-2xl bg-sand p-6 rounded-md"
     >
-      <label htmlFor="note">Votre note :</label>
+      <label htmlFor="note">Nom du contact :</label>
       <input
         type="text"
-        name="note"
-        {...register("note", { required: "Vous devez remplir ce champs" })}
+        name="name"
+        {...register("name", { required: "Vous devez remplir ce champs" })}
       />
-      {errors.note && (
+      {errors.name && (
         <p
           role="alert"
           className="bg-red-600 text-beige text-sm px-1 py-0.5 rounded-md"
         >
-          {errors.note?.message}
+          {errors.name?.message}
+        </p>
+      )}
+      <label htmlFor="note">Email :</label>
+      <input
+        type="text"
+        name="email"
+        {...register("email", { required: "Vous devez remplir ce champs" })}
+      />
+      {errors.email && (
+        <p
+          role="alert"
+          className="bg-red-600 text-beige text-sm px-1 py-0.5 rounded-md"
+        >
+          {errors.email?.message}
         </p>
       )}
       <button
@@ -70,7 +84,7 @@ export default function CreateTodo({ closeModal, setIsUpdated }) {
   );
 }
 
-CreateTodo.propTypes = {
+CreateContact.propTypes = {
   closeModal: PropTypes.func.isRequired,
   setIsUpdated: PropTypes.func.isRequired,
 };

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
-
 import Todo from "../components/todos/Todo";
 import plus from "../assets/plus.png";
 import CreateTodo from "../components/todos/CreateTodo";
@@ -55,6 +54,7 @@ export default function TodolistPage() {
       </Modal>
       <button
         type="button"
+        title="nouvelle note"
         onClick={openModal}
         className="absolute bottom-5 right-5 bg-green rounded-full w-fit p-1 border-4 border-black"
       >

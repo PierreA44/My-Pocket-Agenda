@@ -31,7 +31,7 @@ export default function NavBar({ auth, setAuth }) {
     {
       id: 2,
       path: "/contact",
-      title: "Mes contacts",
+      title: "Mon répertoire",
       style: "-mx-4",
     },
     {
