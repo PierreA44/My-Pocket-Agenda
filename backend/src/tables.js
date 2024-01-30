@@ -4,11 +4,11 @@
 
 // Import the manager modules responsible for handling data operations on the tables
 const UserManager = require("./models/UserManager");
+const TodoManager = require("./models/TodoManager");
+const ContactManager = require("./models/ContactManager");
+const RdvManager = require("./models/RdvManager");
 
-const managers = [
-  UserManager,
-  // Add other managers here
-];
+const managers = [UserManager, TodoManager, ContactManager, RdvManager];
 
 // Create an empty object to hold data managers for different tables
 const tables = {};

@@ -8,11 +8,11 @@ import "react-toastify/dist/ReactToastify.css";
 export default function App() {
   const [auth, setAuth] = useState();
   return (
-    <div className="p-2 bg-beige h-screen">
-      <NavBar />
+    <div className="p-2 bg-beige min-h-screen">
+      <NavBar auth={auth} setAuth={setAuth} />
       <ToastContainer
         position="bottom-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
