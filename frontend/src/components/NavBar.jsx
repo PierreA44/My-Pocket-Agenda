@@ -42,14 +42,6 @@ export default function NavBar({ auth, setAuth }) {
     },
   ];
 
-  const handleClick = () => {
-    if (isVisible) {
-      setIsVisible(false);
-    } else {
-      setIsVisible(true);
-    }
-  };
-
   const logOut = () => {
     setAuth("");
     navigate("/");
@@ -58,7 +50,11 @@ export default function NavBar({ auth, setAuth }) {
 
   return (
     <nav className="flex flex-row items-center font-commi font-bold text-dkGreen text-xl">
-      <button type="button" onClick={handleClick} className="w-28 m-6">
+      <button
+        type="button"
+        onClick={() => setIsVisible(!isVisible)}
+        className="w-28 m-6"
+      >
         <img src={logo} alt="logo" />
       </button>
       <div className="flex flex-col justify-center items-start">

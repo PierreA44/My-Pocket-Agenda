@@ -70,7 +70,7 @@ export default function CreateRDV({ closeModal, setIsUpdated }) {
       )}
       <label htmlFor="start">Heure de début :</label>
       <div className="flex flex-row gap-1">
-        <input type="number" name="start" className="w-8" />
+        <input type="number" name="start" className="w-8" {...register("")} />
         <p>heure</p>
         <input type="number" name="start" className="w-8" />
         <p>minutes</p>
@@ -84,7 +84,7 @@ export default function CreateRDV({ closeModal, setIsUpdated }) {
       </div>
       <label htmlFor="description">Détails :</label>
       <textarea name="description" id="" cols="20" rows="2" />
-      <label htmlFor="contact">Ajouter un de vos contact ?</label>
+      <label htmlFor="contact">Ajouter un de vos contacts ?</label>
       <select name="contact">
         <option value="">--</option>
       </select>
