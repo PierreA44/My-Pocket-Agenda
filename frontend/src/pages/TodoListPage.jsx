@@ -32,6 +32,9 @@ export default function TodolistPage() {
           .then((res) => setTodos(res.data));
         setIsMounted(false);
         setIsUpdated(false);
+        if (!todos[0]) {
+          setIsClicked(false);
+        }
       } else {
         navigate("/");
       }
@@ -63,13 +66,15 @@ export default function TodolistPage() {
       >
         <CreateTodo closeModal={closeModal} setIsUpdated={setIsUpdated} />
       </Modal>
-      <button
-        type="button"
-        className="absolute bottom-5 left-5 bg-green p-2.5 rounded-full border-black border-4"
-        onClick={() => setIsClicked(!isClicked)}
-      >
-        <img src={edition} alt="modifier/supprimer" width="48" />
-      </button>
+      {todos[0] && (
+        <button
+          type="button"
+          className="absolute bottom-5 left-5 bg-green p-2.5 rounded-full border-black border-4"
+          onClick={() => setIsClicked(!isClicked)}
+        >
+          <img src={edition} alt="modifier/supprimer" width="48" />
+        </button>
+      )}
       <button
         type="button"
         title="nouvelle note"

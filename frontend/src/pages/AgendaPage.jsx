@@ -7,7 +7,7 @@ import plus from "../assets/plus.png";
 
 export default function AgendaPage() {
   const { auth } = useOutletContext();
-  const [rdv, setRdv] = useState();
+  const [rdv, setRdv] = useState([]);
   const [isUpdated, setIsUpdated] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
   const navigate = useNavigate();
@@ -19,7 +19,13 @@ export default function AgendaPage() {
   useEffect(() => {
     if (isMounted || isUpdated) {
       if (auth) {
-        axios.get("url").then((res) => setRdv(res.data));
+        axios
+          .get(`${import.meta.env.VITE_BACKEND_URL}/api/rdv`, {
+            headers: {
+              Authorization: `Bearer ${auth}`,
+            },
+          })
+          .then((res) => setRdv(res.data));
       } else {
         navigate("/");
       }

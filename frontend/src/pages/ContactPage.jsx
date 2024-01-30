@@ -32,6 +32,9 @@ export default function ContactPage() {
           .then((res) => setContacts(res.data));
         setIsMounted(false);
         setIsUpdated(false);
+        if (!contacts[0]) {
+          setIsClicked(false);
+        }
       } else {
         navigate("/");
       }
@@ -63,13 +66,15 @@ export default function ContactPage() {
       >
         <CreateContact closeModal={closeModal} setIsUpdated={setIsUpdated} />
       </Modal>
-      <button
-        type="button"
-        className="absolute bottom-5 left-5 bg-green p-2.5 rounded-full border-black border-4"
-        onClick={() => setIsClicked(!isClicked)}
-      >
-        <img src={edition} alt="modifier/supprimer" width="48" />
-      </button>
+      {contacts[0] && (
+        <button
+          type="button"
+          className="absolute bottom-5 left-5 bg-green p-2.5 rounded-full border-black border-4"
+          onClick={() => setIsClicked(!isClicked)}
+        >
+          <img src={edition} alt="modifier/supprimer" width="48" />
+        </button>
+      )}
       <button
         type="button"
         title="nouveau contact"
