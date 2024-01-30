@@ -20,14 +20,6 @@ export default function ContactPage() {
   const openModal = () => setIsModalVisible(true);
   const closeModal = () => setIsModalVisible(false);
 
-  const handleClick = () => {
-    if (isClicked) {
-      setIsClicked(false);
-    } else {
-      setIsClicked(true);
-    }
-  };
-
   useEffect(() => {
     if (isMounted || isUpdated) {
       if (auth) {
@@ -74,7 +66,7 @@ export default function ContactPage() {
       <button
         type="button"
         className="absolute bottom-5 left-5 bg-green p-2.5 rounded-full border-black border-4"
-        onClick={handleClick}
+        onClick={() => setIsClicked(!isClicked)}
       >
         <img src={edition} alt="modifier/supprimer" width="48" />
       </button>
