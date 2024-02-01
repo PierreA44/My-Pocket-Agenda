@@ -17,7 +17,7 @@ class ContactManager extends AbstractManager {
 
   async read(id) {
     const [rows] = await this.database.query(
-      `SELECT id, name, email FROM ${this.table} WHERE user_id=?`,
+      `SELECT id, name, email FROM ${this.table} WHERE user_id=? ORDER BY name ASC`,
       [id]
     );
     return rows;
