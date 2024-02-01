@@ -7,8 +7,15 @@ const UserManager = require("./models/UserManager");
 const TodoManager = require("./models/TodoManager");
 const ContactManager = require("./models/ContactManager");
 const RdvManager = require("./models/RdvManager");
+const RdvContactManager = require("./models/RdvContactManager");
 
-const managers = [UserManager, TodoManager, ContactManager, RdvManager];
+const managers = [
+  UserManager,
+  TodoManager,
+  ContactManager,
+  RdvManager,
+  RdvContactManager,
+];
 
 // Create an empty object to hold data managers for different tables
 const tables = {};
