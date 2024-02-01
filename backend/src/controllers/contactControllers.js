@@ -17,6 +17,22 @@ const read = async (req, res, next) => {
   }
 };
 
+const readByContactID = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const contact = await tables.contact.readByID(Number(id));
+
+    if (contact === null) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).json(contact);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 const edit = async (req, res, next) => {
   try {
     const { name, email } = req.body;
@@ -67,4 +83,4 @@ const destroy = async (req, res, next) => {
   }
 };
 
-module.exports = { read, edit, add, destroy };
+module.exports = { read, readByContactID, edit, add, destroy };
