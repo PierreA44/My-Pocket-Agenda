@@ -51,6 +51,7 @@ export default function ContactPage() {
             id={c.id}
             name={c.name}
             email={c.email}
+            phone={c.phone_number}
             setIsUpdated={setIsUpdated}
             isClicked={isClicked}
             setIsClicked={setIsClicked}

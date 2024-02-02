@@ -17,10 +17,18 @@ class RdvManager extends AbstractManager {
 
   async read(id) {
     const [rows] = await this.database.query(
-      `SELECT * FROM ${this.table} WHERE user_id=?`,
+      `SELECT * FROM ${this.table} WHERE user_id=? ORDER BY scheduled_date ASC`,
       [id]
     );
     return rows;
+  }
+
+  async readCount(id) {
+    const [rows] = await this.database.query(
+      `SELECT COUNT(id) AS count FROM ${this.table} WHERE scheduled_date= DATE(NOW()) AND user_id=?`,
+      [id]
+    );
+    return rows[0];
   }
 
   async update(id, note) {
