@@ -49,11 +49,38 @@ class UserManager extends AbstractManager {
   }
 
   // The U of CRUD - Update operation
-  // TODO: Implement the update operation to modify an existing user
 
-  // async update(user) {
-  //   ...
-  // }
+  async update(pseudo, email, id) {
+    const sql = `UPDATE ${this.table} SET `;
+
+    const sqlParams = [];
+
+    const sqlClause = {};
+
+    if (pseudo !== "") {
+      sqlClause.pseudo = "pseudo = ?";
+      sqlParams.push(pseudo);
+    }
+
+    if (email !== "") {
+      sqlClause.email = "email = ?";
+      sqlParams.push(email);
+    }
+    sqlParams.push(id);
+    const [result] = await this.database.query(
+      `${sql} ${Object.values(sqlClause).join()} WHERE id = ?`,
+      sqlParams
+    );
+    return result.affectedRows;
+  }
+
+  async updateMdp(password, id) {
+    const [result] = await this.database.query(
+      `UPDATE ${this.table} SET password = ? WHERE id = ?`,
+      [password, id]
+    );
+    return result.affectedRows;
+  }
 
   // The D of CRUD - Delete operation
   // TODO: Implement the delete operation to remove an user by its ID
