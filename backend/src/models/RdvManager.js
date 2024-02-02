@@ -39,6 +39,14 @@ class RdvManager extends AbstractManager {
     return rows[0];
   }
 
+  async readByDateAndUserId(date, id) {
+    const [rows] = await this.database.query(
+      `SELECT id, title, start_rdv, end_rdv FROM ${this.table} WHERE scheduled_date = ? and user_id = ?`,
+      [date, id]
+    );
+    return rows;
+  }
+
   async update(title, date, start, end, description, id) {
     const sql = `UPDATE ${this.table} SET `;
 

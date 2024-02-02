@@ -84,22 +84,14 @@ const add = async (req, res, next) => {
       description,
       Number(sub)
     );
-
+    let rdvContact = "toto";
     if (selectedContact[0]) {
       selectedContact.forEach(async (c) => {
-        const rdvContact = await tables.rdv_contact.create(
-          Number(newRDV),
-          Number(c)
-        );
-        if (rdvContact === null) {
-          res.sendStatus(404);
-        } else {
-          res.sendStatus(200);
-        }
+        rdvContact = await tables.rdv_contact.create(Number(newRDV), Number(c));
       });
     }
 
-    if (newRDV === null) {
+    if (newRDV === null || rdvContact === null) {
       res.sendStatus(404);
     } else {
       res.status(200).json({ message: "RDV ajouté à votre agenda" });

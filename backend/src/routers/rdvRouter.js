@@ -9,6 +9,7 @@ const {
   edit,
   destroy,
 } = require("../controllers/rdvControllers");
+// const { validateRdv } = require("../middlewares/validateRDV");
 
 router.get("/", read);
 
