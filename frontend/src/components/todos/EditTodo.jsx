@@ -60,7 +60,7 @@ export default function EditTodo({ closeModal, setIsUpdated, editID }) {
         type="text"
         name="note"
         placeholder={currentTodo?.note}
-        className="rounded-md pl-2"
+        className="rounded-md pl-2 dark:bg-slate-200"
         {...register("note", { required: "Vous devez remplir ce champs" })}
       />
       {errors.note && (
@@ -73,7 +73,7 @@ export default function EditTodo({ closeModal, setIsUpdated, editID }) {
       )}
       <button
         type="submit"
-        className="bg-green text-sand font-bold active:bg-dkGreen shadow px-2 py-1 mt-4 rounded-md"
+        className="bg-green dark:bg-slate-700 text-sand font-bold active:bg-dkGreen shadow px-2 py-1 mt-4 rounded-md"
       >
         Valider
       </button>

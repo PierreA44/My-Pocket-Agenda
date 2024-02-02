@@ -43,6 +43,7 @@ export default function CreateTodo({ closeModal, setIsUpdated }) {
       <input
         type="text"
         name="note"
+        className="rounded-md pl-2 dark:bg-slate-200"
         {...register("note", { required: "Vous devez remplir ce champs" })}
       />
       {errors.note && (
@@ -55,7 +56,7 @@ export default function CreateTodo({ closeModal, setIsUpdated }) {
       )}
       <button
         type="submit"
-        className="bg-green text-sand font-bold active:bg-dkGreen shadow px-2 py-1 mt-4 rounded-md"
+        className="bg-green text-sand font-bold dark:bg-slate-700 active:bg-dkGreen shadow px-2 py-1 mt-4 rounded-md"
       >
         Valider
       </button>

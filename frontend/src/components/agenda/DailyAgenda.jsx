@@ -47,24 +47,24 @@ export default function DailyAgenda({ dailyRDV, setIsUpdated }) {
         {dailyRDV[0] ? (
           dailyRDV.map((d) => (
             <div
-              className="bg-sand/40 rounded-r-lg flex flex-col border-l-4 justify-between font-commi border-green px-2 py-2 gap-2"
+              className="bg-sand/40 dark:bg-beige/40 rounded-r-lg flex flex-col border-l-4 justify-between font-commi border-green dark:border-beige px-2 py-2 gap-2"
               key={d.id}
             >
               <div className="flex flex-row justify-between sm:w-72">
-                <p className="text-lg font-bold">{d.start_rdv}</p>
+                <p className="text-lg font-bold ">{d.start_rdv}</p>
                 {isClicked && (
                   <div className="flex flex-row gap-2 text-xs text-gray-700">
                     <button
                       type="button"
                       onClick={() => openModal(d.id)}
-                      className="bg-green active:bg-dkGreen text-xs text-gray-700 active:text-sand shadow px-2 py-1 rounded-md w-20"
+                      className="bg-green dark:bg-dkGreen dark:text-sand active:bg-dkGreen text-xs text-gray-700 active:text-sand shadow px-2 py-1 rounded-md w-20"
                     >
                       Modifier
                     </button>
                     <button
                       type="button"
                       onClick={() => deleteRDV(d.id)}
-                      className="bg-green active:bg-dkGreen active:text-sand shadow px-2 py-1 rounded-md"
+                      className="bg-green dark:bg-dkGreen dark:text-sand active:bg-dkGreen active:text-sand shadow px-2 py-1 rounded-md"
                     >
                       Supprimer
                     </button>
@@ -99,7 +99,7 @@ export default function DailyAgenda({ dailyRDV, setIsUpdated }) {
       {dailyRDV && !isClicked ? (
         <button
           type="button"
-          className="fixed bottom-3 left-3 bg-green p-2.5 rounded-full border-black border-4"
+          className="fixed bottom-3 left-3 bg-green dark:bg-sand p-2.5 rounded-full border-black border-4"
           onClick={() => setIsClicked(!isClicked)}
         >
           <img src={edition} alt="modifier/supprimer" width="38" />

@@ -47,8 +47,6 @@ export default function AgendaPage() {
     }
   }, [isMounted, isUpdated]);
 
-  console.info(contactsRDV);
-
   // je récupère la date, la semaine et le mois en cours
   const today = moment().format("L");
   const week = moment().week();
@@ -117,6 +115,8 @@ export default function AgendaPage() {
       name: "Mois",
     },
   ];
+
+  console.info(contactsRDV);
 
   return (
     <section className="flex flex-col font-lexend gap-2">

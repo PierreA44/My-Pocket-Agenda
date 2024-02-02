@@ -13,13 +13,13 @@ export default function NavBar({ auth, setAuth }) {
       id: 1,
       path: "/login",
       title: "Se connecter",
-      style: "-mx-4",
+      style: "-mx-1",
     },
     {
       id: 2,
       path: "/registration",
       title: "S'inscrire",
-      style: "-mx-4",
+      style: "-mx-1",
     },
   ];
 
@@ -28,19 +28,19 @@ export default function NavBar({ auth, setAuth }) {
       id: 1,
       path: "/agenda",
       title: "Mon agenda",
-      style: "-mx-7",
+      style: "-mx-4",
     },
     {
       id: 2,
       path: "/contact",
       title: "Mon répertoire",
-      style: "-mx-4",
+      style: "-mx-1",
     },
     {
       id: 3,
       path: "/todolist",
       title: "Mes notes",
-      style: "-mx-4",
+      style: "-mx-1",
     },
   ];
 
@@ -84,7 +84,7 @@ export default function NavBar({ auth, setAuth }) {
                 {n.title}
               </button>
             ))}
-            <button type="button" onClick={logOut} className="-mx-7">
+            <button type="button" onClick={logOut} className="-mx-4">
               Se déconnecter
             </button>
           </>
