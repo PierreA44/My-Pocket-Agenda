@@ -4,6 +4,7 @@ const router = express.Router();
 
 const {
   read,
+  readByContactID,
   add,
   edit,
   destroy,
@@ -12,6 +13,8 @@ const {
 router.get("/", read);
 
 router.post("/", add);
+
+router.get("/:id", readByContactID);
 
 router.put("/:id", edit);
 

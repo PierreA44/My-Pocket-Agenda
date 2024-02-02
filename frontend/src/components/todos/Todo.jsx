@@ -1,9 +1,9 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import moment from "moment/min/moment-with-locales";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import closeButton from "../../assets/bouton-fermer.png";
 
 export default function Todo({
   id,
@@ -11,6 +11,7 @@ export default function Todo({
   creationDate,
   setIsUpdated,
   isClicked,
+  openEditModal,
 }) {
   const { auth } = useOutletContext();
   moment.locale("fr");
@@ -32,19 +33,35 @@ export default function Todo({
   };
 
   return (
-    <div className="relative flex flex-col items-baseline gap-2 bg-sand py-2 px-4 w-fit rounded-md">
-      {isClicked && (
-        <button
-          type="button"
-          title="supprimer la note"
-          className="absolute w-4 -top-1 -right-1"
-          onClick={deleteTodo}
-        >
-          <img src={closeButton} alt="fermer" />
-        </button>
+    <div className="relative flex flex-col items-baseline gap-2 bg-sand py-2 px-4 w-fit rounded-md shadow">
+      {isClicked ? (
+        <>
+          <p className="text-[10px]">{moment(creationDate).format("LL")}</p>
+          <h1 className="text-3xl first-letter:capitalize">{note}</h1>
+
+          <div className="flex flex-row gap-4 text-gray-700">
+            <button
+              type="button"
+              onClick={() => openEditModal(id)}
+              className="bg-green active:bg-dkGreen dark:bg-dkGreen dark:text-sand dark:active:bg-green active:text-sand text-xs shadow px-2 py-1 rounded-md w-20"
+            >
+              Modifier
+            </button>
+            <button
+              type="button"
+              onClick={deleteTodo}
+              className="bg-green active:bg-dkGreen dark:bg-dkGreen dark:text-sand dark:active:bg-green active:text-sand text-xs shadow px-2 py-1 rounded-md"
+            >
+              Supprimer
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="text-[10px]">{moment(creationDate).format("LL")}</p>
+          <h1 className="text-3xl first-letter:capitalize">{note}</h1>
+        </>
       )}
-      <p className="text-[10px]">{moment(creationDate).format("LL")}</p>
-      <h1 className="text-3xl first-letter:capitalize">{note}</h1>
     </div>
   );
 }
@@ -55,4 +72,5 @@ Todo.propTypes = {
   creationDate: PropTypes.string.isRequired,
   setIsUpdated: PropTypes.func.isRequired,
   isClicked: PropTypes.bool.isRequired,
+  openEditModal: PropTypes.func.isRequired,
 };

@@ -17,10 +17,18 @@ class TodoManager extends AbstractManager {
 
   async read(id) {
     const [rows] = await this.database.query(
-      `SELECT id, note FROM ${this.table} WHERE user_id=?`,
+      `SELECT id, note, creation_date FROM ${this.table} WHERE user_id=? ORDER BY creation_date DESC`,
       [id]
     );
     return rows;
+  }
+
+  async readByID(id) {
+    const [rows] = await this.database.query(
+      `SELECT * FROM ${this.table} WHERE id=?`,
+      [id]
+    );
+    return rows[0];
   }
 
   async update(id, note) {

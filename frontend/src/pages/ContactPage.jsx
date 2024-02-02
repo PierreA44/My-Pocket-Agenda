@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
+import Contact from "../components/contacts/Contact";
 import CreateContact from "../components/contacts/CreateContact";
 import plus from "../assets/plus.png";
 import edition from "../assets/edition.png";
-import Contact from "../components/contacts/Contact";
+import closeButton from "../assets/bouton-fermer.png";
+import EditContact from "../components/contacts/EditContact";
 
 export default function ContactPage() {
   const { auth } = useOutletContext();
@@ -13,12 +15,30 @@ export default function ContactPage() {
   const [isUpdated, setIsUpdated] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
+  const [isNew, setIsNew] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editID, setEditID] = useState("");
 
   const navigate = useNavigate();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const openModal = () => setIsModalVisible(true);
-  const closeModal = () => setIsModalVisible(false);
+  const openEditModal = (id) => {
+    setEditID(id);
+    setIsEdit(true);
+    setIsModalVisible(true);
+  };
+  const openCreateModal = () => {
+    setIsNew(true);
+    setIsModalVisible(true);
+  };
+  const closeEditModal = () => {
+    setIsEdit(false);
+    setIsModalVisible(false);
+  };
+  const closeCreateModal = () => {
+    setIsNew(false);
+    setIsModalVisible(false);
+  };
 
   useEffect(() => {
     if (isMounted || isUpdated) {
@@ -32,6 +52,7 @@ export default function ContactPage() {
           .then((res) => setContacts(res.data));
         setIsMounted(false);
         setIsUpdated(false);
+        setIsEdit(false);
         if (!contacts[0]) {
           setIsClicked(false);
         }
@@ -43,7 +64,9 @@ export default function ContactPage() {
 
   return (
     <section className="flex flex-col font-lexend gap-2">
-      <h1 className="text-4xl text-dkGreen px-4 pb-2">Répertoire :</h1>
+      <h1 className="text-4xl text-dkGreen dark:text-sand px-4 pb-2">
+        Répertoire :
+      </h1>
       <div className="flex flex-wrap gap-2 text-gray-700">
         {contacts.map((c) => (
           <Contact
@@ -51,37 +74,62 @@ export default function ContactPage() {
             id={c.id}
             name={c.name}
             email={c.email}
+            phone={c.phone_number}
             setIsUpdated={setIsUpdated}
             isClicked={isClicked}
             setIsClicked={setIsClicked}
+            openEditModal={openEditModal}
           />
         ))}
       </div>
       <Modal
         isOpen={isModalVisible}
-        onRequestClose={closeModal}
+        onRequestClose={!isModalVisible}
         contentLabel="Edit Skin Types"
         overlayClassName="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center"
         className="max-w-md mx-auto"
       >
-        <CreateContact closeModal={closeModal} setIsUpdated={setIsUpdated} />
+        {isEdit && (
+          <EditContact
+            closeModal={closeEditModal}
+            setIsUpdated={setIsUpdated}
+            setIsEdit={setIsEdit}
+            editID={editID}
+          />
+        )}
+        {isNew && (
+          <CreateContact
+            closeModal={closeCreateModal}
+            setIsUpdated={setIsUpdated}
+            setIsNew={setIsNew}
+          />
+        )}
       </Modal>
-      {contacts[0] && (
+      {contacts[0] && !isClicked ? (
         <button
           type="button"
-          className="absolute bottom-5 left-5 bg-green p-2.5 rounded-full border-black border-4"
+          className="fixed bottom-3 left-3 bg-green dark:bg-sand p-2.5 rounded-full border-black border-4"
           onClick={() => setIsClicked(!isClicked)}
         >
-          <img src={edition} alt="modifier/supprimer" width="48" />
+          <img src={edition} alt="modifier/supprimer" width="38" />
+        </button>
+      ) : (
+        <button
+          type="button"
+          title="annuler"
+          className="fixed bottom-3 left-3 border-black border-4 rounded-full bg-black"
+          onClick={() => setIsClicked(false)}
+        >
+          <img src={closeButton} alt="fermer" width="58" />
         </button>
       )}
       <button
         type="button"
         title="nouveau contact"
-        onClick={openModal}
-        className="absolute bottom-5 right-5 bg-green rounded-full w-fit p-1 border-4 border-black"
+        onClick={openCreateModal}
+        className="fixed bottom-3 right-3 bg-green dark:bg-sand rounded-full w-fit p-1 border-4 border-black"
       >
-        <img src={plus} alt="plus" width="60" />
+        <img src={plus} alt="plus" width="50" />
       </button>
     </section>
   );

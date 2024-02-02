@@ -18,7 +18,7 @@ USERS STORIES :
 
 #5 : Je peux switcher sur un darkMode
 
-#6 : Je peux lier un/des contacts à un RDV créer.
+#6 : Je peux afficher le détails des rdvs sur l'onglet "mois"
 
 #7 : Je peux accéder à mes données personnelles depuis une side bar ( ? ) , je peux les modifier au besoin.
 

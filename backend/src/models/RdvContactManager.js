@@ -15,29 +15,38 @@ class RdvContactManager extends AbstractManager {
     return result.insertId;
   }
 
-  //   async read(id) {
-  //     const [rows] = await this.database.query(
-  //       `SELECT id, name, email FROM ${this.table} WHERE user_id=?`,
-  //       [id]
-  //     );
-  //     return rows;
-  //   }
+  async readByRdvID(id) {
+    const [rows] = await this.database.query(
+      `SELECT * FROM ${this.table} WHERE rdv_id = ?`,
+      [id]
+    );
+    return rows;
+  }
 
-  //   async update(name, email, id) {
-  //     const [result] = await this.database.query(
-  //       `UPDATE ${this.table} SET name=?, email=? WHERE id=?`,
-  //       [name, email, id]
-  //     );
-  //     return result.affectedRows;
-  //   }
+  async readByUserID(id) {
+    const [rows] = await this.database.query(
+      `SELECT rc.id, rc.rdv_id, c.id AS contact_id, c.name AS contacts, email FROM ${this.table} AS rc
+       JOIN contact AS c ON c.id = rc.contact_id JOIN rdv ON rdv.id = rc.rdv_id WHERE rdv.user_id=?`,
+      [id]
+    );
+    return rows;
+  }
 
-  //   async delete(id) {
-  //     const [result] = await this.database.query(
-  //       `DELETE FROM ${this.table} WHERE id=?`,
-  //       [id]
-  //     );
-  //     return result.affectedRows;
-  //   }
+  async update(name, email, id) {
+    const [result] = await this.database.query(
+      `UPDATE ${this.table} SET name=?, email=? WHERE id=?`,
+      [name, email, id]
+    );
+    return result.affectedRows;
+  }
+
+  async delete(id) {
+    const [result] = await this.database.query(
+      `DELETE FROM ${this.table} WHERE rdv_id=?`,
+      [id]
+    );
+    return result.affectedRows;
+  }
 }
 
 module.exports = RdvContactManager;

@@ -17,16 +17,65 @@ class RdvManager extends AbstractManager {
 
   async read(id) {
     const [rows] = await this.database.query(
-      `SELECT * FROM ${this.table} WHERE user_id=?`,
+      `SELECT *  FROM ${this.table} WHERE rdv.user_id=? ORDER BY rdv.scheduled_date ASC , rdv.start_rdv ASC`,
       [id]
     );
     return rows;
   }
 
-  async update(id, note) {
+  async readByID(id) {
+    const [rows] = await this.database.query(
+      `SELECT * FROM ${this.table} WHERE id=?`,
+      [id]
+    );
+    return rows[0];
+  }
+
+  async readCount(id) {
+    const [rows] = await this.database.query(
+      `SELECT COUNT(id) AS count FROM ${this.table} WHERE scheduled_date= DATE(NOW()) AND user_id=?`,
+      [id]
+    );
+    return rows[0];
+  }
+
+  async update(title, date, start, end, description, id) {
+    const sql = `UPDATE ${this.table} SET `;
+
+    const sqlParams = [];
+
+    const sqlClause = {};
+
+    if (title !== "") {
+      sqlClause.title = "title = ?";
+      sqlParams.push(title);
+    }
+
+    if (date !== "") {
+      sqlClause.date = "scheduled_date = ?";
+      sqlParams.push(date);
+    }
+
+    if (start !== "") {
+      sqlClause.start = "start_rdv = ?";
+      sqlParams.push(start);
+    }
+
+    if (end !== "") {
+      sqlClause.end = "end_rdv = ?";
+      sqlParams.push(end);
+    }
+
+    if (description !== "") {
+      sqlClause.description = "description = ?";
+      sqlParams.push(description);
+    }
+
+    sqlParams.push(id);
+
     const [result] = await this.database.query(
-      `UPDATE ${this.table} SET title=?, scheduled_date=? WHERE id=?`,
-      [note, id]
+      `${sql} ${Object.values(sqlClause).join()} WHERE id = ?`,
+      sqlParams
     );
     return result.affectedRows;
   }
