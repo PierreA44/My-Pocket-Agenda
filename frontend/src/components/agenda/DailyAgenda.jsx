@@ -4,14 +4,14 @@ import moment from "moment/min/moment-with-locales";
 export default function DailyAgenda({ dailyRDV }) {
   moment.locale("fr");
   return (
-    <section className="flex flex-col gap-4 text-2xl font-lexend">
+    <section className="flex flex-col gap-4 text-2xl font-lexend dark:text-sand">
       <h1 className="first-letter:capitalize text-center pt-2">
         {moment().format("dddd Do MMMM HH:mm")}
       </h1>
       {dailyRDV[0] ? (
         dailyRDV.map((d) => (
           <div
-            className="flex flex-col border-l-4 font-commi border-green px-2 ml-2 gap-2"
+            className="flex flex-col border-l-4 font-commi border-green dark:border-beige px-2 ml-2 gap-2"
             key={d.id}
           >
             <p className="text-lg font-bold">{d.start_rdv}</p>
