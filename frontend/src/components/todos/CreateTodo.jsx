@@ -61,7 +61,7 @@ export default function CreateTodo({ closeModal, setIsUpdated }) {
       </button>
       <button
         type="button"
-        onClick={() => closeModal()}
+        onClick={closeModal}
         className="absolute -top-4 -right-4 bg-black rounded-full border-4 border-black w-12"
       >
         <img src={closeButton} alt="croix rouge" />

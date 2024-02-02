@@ -1,0 +1,25 @@
+USERS STORIES : 
+
+#1 : Je peux accéder à un site de gestion d'agenda; je dois créer un compte ou me connecter pour aller plus loin.
+
+#2 : En me connectant, j'accède à mon espace :
+            - Mon agenda
+            - Mon répertoire ( j'accède à la liste de mes contacts, je peux en ajouter ou en supprimer )
+            - Mes notes ( j'accède à la liste de mes notes , je peux en ajouter ou en supprimer )
+
+#3 : Je peux ajouter un nouveau RDV depuis mon agenda, et le voir s'afficher sous 3 formes différentes :
+        affichage : - au mois
+                    - à la semaine
+                    - à la journée
+
+#4 : Je peux modifier : - une note
+                        - un contact
+                        - un RDV
+
+#5 : Je peux switcher sur un darkMode
+
+#6 : Je peux lier un/des contacts à un RDV créer.
+
+#7 : Je peux accéder à mes données personnelles depuis une side bar ( ? ) , je peux les modifier au besoin.
+
+#8 : Je peux ajouter des labels sur mes RDV (ex: travail, perso, ...) et afficher mes RDV avec des couleurs distinctes en fonction des labels

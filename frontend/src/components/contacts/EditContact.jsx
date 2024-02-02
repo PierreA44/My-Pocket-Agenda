@@ -4,25 +4,44 @@ import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import PropTypes from "prop-types";
-
+import { useEffect, useState } from "react";
 import closeButton from "../../assets/bouton-fermer.png";
 
-export default function CreateContact({ closeModal, setIsUpdated }) {
+export default function EditContact({ closeModal, setIsUpdated, editID }) {
   const { auth } = useOutletContext();
+  const [currentContact, setCurrentContact] = useState();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  useEffect(() => {
     try {
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, data, {
+        .get(`${import.meta.env.VITE_BACKEND_URL}/api/contact/${editID}`, {
           headers: {
             Authorization: `Bearer ${auth}`,
           },
         })
+        .then((res) => setCurrentContact(res.data));
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  const onSubmit = (data) => {
+    try {
+      axios
+        .put(
+          `${import.meta.env.VITE_BACKEND_URL}/api/contact/${editID}`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${auth}`,
+            },
+          }
+        )
         .then((res) => {
           toast.success(res.data.message);
           setIsUpdated(true);
@@ -39,12 +58,12 @@ export default function CreateContact({ closeModal, setIsUpdated }) {
       onSubmit={handleSubmit(onSubmit)}
       className="relative shadow font-commi flex flex-col items-center gap-2 text-green text-2xl bg-sand p-6 rounded-md"
     >
-      <h1 className="font-bold">Nouveau contact</h1>
-
+      <h1 className="font-bold">Modifier le contact</h1>
       <label htmlFor="name">Nom du contact :</label>
       <input
         type="text"
         name="name"
+        placeholder={currentContact?.name}
         className="rounded-md pl-2"
         {...register("name", { required: "Vous devez remplir ce champs" })}
       />
@@ -61,6 +80,7 @@ export default function CreateContact({ closeModal, setIsUpdated }) {
         type="email"
         name="email"
         className="rounded-md pl-2"
+        placeholder={currentContact?.email}
         {...register("email", {
           required: "Vous devez remplir ce champs",
           pattern: {
@@ -79,9 +99,10 @@ export default function CreateContact({ closeModal, setIsUpdated }) {
       )}
       <label htmlFor="phone">Numéro de téléphone :</label>
       <input
-        type="text"
+        type="tel"
         name="phone"
         className="rounded-md pl-2"
+        placeholder={currentContact?.phone_number}
         {...register("phone_number", {
           pattern: {
             value: /[0-9]{10}/,
@@ -115,7 +136,8 @@ export default function CreateContact({ closeModal, setIsUpdated }) {
   );
 }
 
-CreateContact.propTypes = {
+EditContact.propTypes = {
   closeModal: PropTypes.func.isRequired,
   setIsUpdated: PropTypes.func.isRequired,
+  editID: PropTypes.number.isRequired,
 };
