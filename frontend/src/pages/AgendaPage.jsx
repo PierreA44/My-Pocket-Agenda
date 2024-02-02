@@ -119,7 +119,7 @@ export default function AgendaPage() {
   console.info(contactsRDV);
 
   return (
-    <section className="flex flex-col font-lexend gap-2">
+    <section className="flex flex-col font-lexend gap-2 h-screen">
       <h1 className="text-4xl text-dkGreen dark:text-sand px-4 pb-2">
         Agenda :
       </h1>

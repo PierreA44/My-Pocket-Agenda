@@ -58,7 +58,7 @@ export default function RegistrationPage() {
         <input
           type="email"
           name="email"
-          className="rounded-md bg-slate-200 pl-2"
+          className="rounded-md dark:bg-slate-200 pl-2"
           {...register("email", {
             required: "Ce champs est obligatoire",
             pattern: {
@@ -80,7 +80,7 @@ export default function RegistrationPage() {
         <input
           type="email"
           name="confirm-email"
-          className="rounded-md bg-slate-200 pl-2"
+          className="rounded-md dark:bg-slate-200 pl-2"
           {...register("confirmEmail", {
             required: "Vous devez confirmer votre email",
             validate: (value) =>
@@ -99,7 +99,7 @@ export default function RegistrationPage() {
         <input
           type="password"
           name="password"
-          className="rounded-md bg-slate-200 pl-2"
+          className="rounded-md dark:bg-slate-200 pl-2"
           {...register("password", {
             required: "Ce champs est obligatoire",
             pattern: {
@@ -121,7 +121,7 @@ export default function RegistrationPage() {
         <input
           type="password"
           name="confirm-password"
-          className="rounded-md bg-slate-200 pl-2"
+          className="rounded-md dark:bg-slate-200 pl-2"
           {...register("confirmPassword", {
             required: "Vous devez confirmer votre mot de passe",
             validate: (value) =>

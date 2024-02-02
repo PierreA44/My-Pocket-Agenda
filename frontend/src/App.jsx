@@ -9,7 +9,7 @@ import { ThemeContextProvider } from "./contexts/ThemeContext";
 export default function App() {
   const [auth, setAuth] = useState();
   return (
-    <div className="p-2 bg-beige min-h-screen dark:bg-slate-800">
+    <div className="p-2 bg-beige h-min-screen dark:bg-slate-800 pb-20">
       <ThemeContextProvider>
         <NavBar auth={auth} setAuth={setAuth} />
         <ToastContainer

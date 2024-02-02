@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 export default function HomePage() {
   return (
-    <section className="flex flex-col gap-2 mt-8 p-2 text-dkGreen dark:text-sand">
+    <section className="flex flex-col gap-2 mt-8 p-2 text-dkGreen dark:text-sand h-screen">
       <h1 className="font-lexend text-3xl ">Bienvenue sur</h1>
       <h1 className="font-lexend text-4xl mb-4">My Pocket Agenda,</h1>
       <p className="font-commi font-bold text-xl">

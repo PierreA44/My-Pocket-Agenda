@@ -63,7 +63,7 @@ export default function ContactPage() {
   }, [isUpdated, isMounted]);
 
   return (
-    <section className="flex flex-col font-lexend gap-2">
+    <section className="flex flex-col font-lexend gap-2 h-screen">
       <h1 className="text-4xl text-dkGreen dark:text-sand px-4 pb-2">
         Répertoire :
       </h1>

@@ -54,7 +54,7 @@ export default function UserPage() {
   }, [isMounted, isUpdated]);
 
   return (
-    <section className="flex flex-col gap-4 p-6 text-2xl text-dkGreen dark:text-sand font-commi">
+    <section className="flex flex-col gap-4 p-6 text-2xl text-dkGreen dark:text-sand font-commi h-screen">
       <h1 className="text-3xl font-lexend">Bonjour {user?.pseudo}</h1>
       <div className="flex flex-col p-4 gap-2">
         <p>Pseudo : {user?.pseudo}</p>
