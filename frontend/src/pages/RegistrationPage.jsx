@@ -105,7 +105,7 @@ export default function RegistrationPage() {
             pattern: {
               value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
               message:
-                "Votre mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, one number et un caractère spécial",
+                "Votre mot de passe doit contenir au moins 8 caractères dont une majuscule, une minuscule, one number et un caractère spécial",
             },
           })}
         />

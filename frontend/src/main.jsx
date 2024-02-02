@@ -10,6 +10,7 @@ import TodolistPage from "./pages/TodoListPage";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import HomePage from "./pages/HomePage";
+import UserPage from "./pages/UserPage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/todolist",
         element: <TodolistPage />,
+      },
+      {
+        path: "/user",
+        element: <UserPage />,
       },
       {
         path: "/login",
