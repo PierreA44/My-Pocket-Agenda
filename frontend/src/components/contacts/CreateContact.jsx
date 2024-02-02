@@ -61,7 +61,13 @@ export default function CreateContact({ closeModal, setIsUpdated }) {
         type="email"
         name="email"
         className="rounded-md pl-2"
-        {...register("email", { required: "Vous devez remplir ce champs" })}
+        {...register("email", {
+          required: "Vous devez remplir ce champs",
+          pattern: {
+            value: /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/,
+            message: "Votre email n'a pas la bonne syntaxe, ex: johndoe@doe.fr",
+          },
+        })}
       />
       {errors.email && (
         <p
@@ -76,7 +82,13 @@ export default function CreateContact({ closeModal, setIsUpdated }) {
         type="text"
         name="phone"
         className="rounded-md pl-2"
-        {...register("phone_number")}
+        {...register("phone_number", {
+          pattern: {
+            value: /[0-9]{10}/,
+            message: "Le numéro doit comporter 10 chiffres ",
+          },
+          valueAsNumber: "Un nombre est obligatoire",
+        })}
       />
       {errors.phone_number && (
         <p

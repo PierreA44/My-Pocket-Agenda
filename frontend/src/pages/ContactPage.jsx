@@ -106,28 +106,28 @@ export default function ContactPage() {
       {contacts[0] && !isClicked ? (
         <button
           type="button"
-          className="absolute bottom-5 left-5 bg-green p-2.5 rounded-full border-black border-4"
+          className="fixed bottom-3 left-3 bg-green p-2.5 rounded-full border-black border-4"
           onClick={() => setIsClicked(!isClicked)}
         >
-          <img src={edition} alt="modifier/supprimer" width="48" />
+          <img src={edition} alt="modifier/supprimer" width="38" />
         </button>
       ) : (
         <button
           type="button"
           title="annuler"
-          className="absolute bottom-5 left-5 border-black border-4 rounded-full bg-black"
+          className="fixed bottom-3 left-3 border-black border-4 rounded-full bg-black"
           onClick={() => setIsClicked(false)}
         >
-          <img src={closeButton} alt="fermer" width="68" />
+          <img src={closeButton} alt="fermer" width="58" />
         </button>
       )}
       <button
         type="button"
         title="nouveau contact"
         onClick={openCreateModal}
-        className="absolute bottom-5 right-5 bg-green rounded-full w-fit p-1 border-4 border-black"
+        className="fixed bottom-3 right-3 bg-green rounded-full w-fit p-1 border-4 border-black"
       >
-        <img src={plus} alt="plus" width="60" />
+        <img src={plus} alt="plus" width="50" />
       </button>
     </section>
   );

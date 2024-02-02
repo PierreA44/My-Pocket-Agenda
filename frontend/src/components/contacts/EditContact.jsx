@@ -81,7 +81,13 @@ export default function EditContact({ closeModal, setIsUpdated, editID }) {
         name="email"
         className="rounded-md pl-2"
         placeholder={currentContact?.email}
-        {...register("email", { required: "Vous devez remplir ce champs" })}
+        {...register("email", {
+          required: "Vous devez remplir ce champs",
+          pattern: {
+            value: /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/,
+            message: "Votre email n'a pas la bonne syntaxe, ex: johndoe@doe.fr",
+          },
+        })}
       />
       {errors.email && (
         <p
@@ -93,11 +99,17 @@ export default function EditContact({ closeModal, setIsUpdated, editID }) {
       )}
       <label htmlFor="phone">Numéro de téléphone :</label>
       <input
-        type="text"
+        type="tel"
         name="phone"
         className="rounded-md pl-2"
         placeholder={currentContact?.phone_number}
-        {...register("phone_number")}
+        {...register("phone_number", {
+          pattern: {
+            value: /[0-9]{10}/,
+            message: "Le numéro doit comporter 10 chiffres ",
+          },
+          valueAsNumber: "Un nombre est obligatoire",
+        })}
       />
       {errors.phone_number && (
         <p
