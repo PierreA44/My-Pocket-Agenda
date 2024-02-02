@@ -39,7 +39,7 @@ export default function DailyAgenda({ dailyRDV, setIsUpdated }) {
   };
 
   return (
-    <section className="flex flex-col sm:items-center gap-4 px-8 text-2xl font-lexend  dark:text-sand">
+    <section className="flex flex-col sm:items-center gap-4 px-8 text-2xl font-lexend  dark:text-sand h-screen">
       <h1 className="first-letter:capitalize text-center py-4">
         {moment().format("dddd Do MMMM HH:mm")}
       </h1>
