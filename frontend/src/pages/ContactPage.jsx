@@ -113,7 +113,8 @@ export default function ContactPage() {
         >
           <img src={edition} alt="modifier/supprimer" width="38" />
         </button>
-      ) : (
+      ) : null}
+      {contacts[0] && isClicked ? (
         <button
           type="button"
           title="annuler"
@@ -122,7 +123,7 @@ export default function ContactPage() {
         >
           <img src={closeButton} alt="fermer" width="58" />
         </button>
-      )}
+      ) : null}
       <button
         type="button"
         title="nouveau contact"

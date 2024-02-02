@@ -31,10 +31,33 @@ class ContactManager extends AbstractManager {
     return rows[0];
   }
 
-  async update(name, email, id) {
+  async update(name, email, phone, id) {
+    const sql = `UPDATE ${this.table} SET `;
+
+    const sqlParams = [];
+
+    const sqlClause = {};
+
+    if (name !== "") {
+      sqlClause.name = "name = ?";
+      sqlParams.push(name);
+    }
+
+    if (email !== "") {
+      sqlClause.email = "email = ?";
+      sqlParams.push(email);
+    }
+
+    if (phone !== "") {
+      sqlClause.phone = "phone_number = ?";
+      sqlParams.push(phone);
+    }
+
+    sqlParams.push(id);
+
     const [result] = await this.database.query(
-      `UPDATE ${this.table} SET name=?, email=? WHERE id=?`,
-      [name, email, id]
+      `${sql} ${Object.values(sqlClause).join()} WHERE id = ?`,
+      sqlParams
     );
     return result.affectedRows;
   }

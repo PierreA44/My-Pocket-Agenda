@@ -65,7 +65,7 @@ export default function EditContact({ closeModal, setIsUpdated, editID }) {
         name="name"
         placeholder={currentContact?.name}
         className="rounded-md pl-2"
-        {...register("name", { required: "Vous devez remplir ce champs" })}
+        {...register("name")}
       />
       {errors.name && (
         <p
@@ -82,7 +82,6 @@ export default function EditContact({ closeModal, setIsUpdated, editID }) {
         className="rounded-md pl-2"
         placeholder={currentContact?.email}
         {...register("email", {
-          required: "Vous devez remplir ce champs",
           pattern: {
             value: /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/,
             message: "Votre email n'a pas la bonne syntaxe, ex: johndoe@doe.fr",
@@ -103,7 +102,7 @@ export default function EditContact({ closeModal, setIsUpdated, editID }) {
         name="phone"
         className="rounded-md pl-2"
         placeholder={currentContact?.phone_number}
-        {...register("phone_number", {
+        {...register("phone", {
           pattern: {
             value: /[0-9]{10}/,
             message: "Le numéro doit comporter 10 chiffres ",
@@ -111,12 +110,12 @@ export default function EditContact({ closeModal, setIsUpdated, editID }) {
           valueAsNumber: "Un nombre est obligatoire",
         })}
       />
-      {errors.phone_number && (
+      {errors.phone && (
         <p
           role="alert"
           className="bg-red-600 text-beige text-sm px-1 py-0.5 rounded-md"
         >
-          {errors.phone_number?.message}
+          {errors.phone?.message}
         </p>
       )}
       <button

@@ -43,7 +43,7 @@ export default function LoginPage() {
         <input
           type="email"
           name="email"
-          className="rounded-md bg-slate-200 pl-2"
+          className="rounded-md dark:bg-slate-200 pl-2"
           {...register("email", { required: "Veuillez renseigner votre mail" })}
         />
         {errors.email && (
@@ -58,7 +58,7 @@ export default function LoginPage() {
         <input
           type="password"
           name="password"
-          className="rounded-md bg-slate-200 pl-2"
+          className="rounded-md dark:bg-slate-200 pl-2"
           {...register("password", {
             required: "Veuillez renseigner votre mot-de-passe",
           })}

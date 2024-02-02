@@ -35,10 +35,15 @@ const readByContactID = async (req, res, next) => {
 
 const edit = async (req, res, next) => {
   try {
-    const { name, email } = req.body;
+    const { name, email, phone } = req.body;
     const { id } = req.params;
 
-    const updatedContact = await tables.contact.update(name, email, Number(id));
+    const updatedContact = await tables.contact.update(
+      name,
+      email,
+      phone,
+      Number(id)
+    );
 
     if (updatedContact === null) {
       res.sendStatus(404);
