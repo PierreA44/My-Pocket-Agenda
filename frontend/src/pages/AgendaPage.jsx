@@ -47,8 +47,6 @@ export default function AgendaPage() {
     }
   }, [isMounted, isUpdated]);
 
-  console.info(contactsRDV);
-
   // je récupère la date, la semaine et le mois en cours
   const today = moment().format("L");
   const week = moment().week();
@@ -118,17 +116,21 @@ export default function AgendaPage() {
     },
   ];
 
+  console.info(contactsRDV);
+
   return (
     <section className="flex flex-col font-lexend gap-2">
-      <h1 className="text-4xl text-dkGreen px-4 pb-2">Agenda :</h1>
+      <h1 className="text-4xl text-dkGreen dark:text-sand px-4 pb-2">
+        Agenda :
+      </h1>
       <div className="text-2xl flex flex-row justify-evenly">
         {buttons.map((b) => (
           <button
             key={b.id}
             className={
               b.state
-                ? "bg-green text-sand font-bold active:bg-dkGreen shadow px-2 py-1 rounded-md"
-                : "bg-sand text-dkGreen font-bold active:bg-dkGreen shadow px-2 py-1 rounded-md"
+                ? "bg-green text-sand  dark:bg-slate-600 font-bold active:bg-dkGreen shadow px-2 py-1 rounded-md"
+                : "bg-sand text-dkGreen dark:text-slate-600 font-bold active:bg-dkGreen shadow px-2 py-1 rounded-md"
             }
             type="button"
             id={b.idName}
@@ -162,7 +164,7 @@ export default function AgendaPage() {
         type="button"
         title="nouveau RDV"
         onClick={openModal}
-        className="fixed bottom-3 right-3 bg-green rounded-full w-fit p-1 border-4 border-black"
+        className="fixed bottom-3 right-3 bg-green rounded-full w-fit p-1 border-4 border-black dark:bg-sand"
       >
         <img src={plus} alt="plus" width="50px" />
       </button>

@@ -44,7 +44,7 @@ export default function WeeklyAgenda({ rdvGroupByDays, setIsUpdated }) {
   };
 
   return (
-    <div className="flex flex-col text-2xl font-lexend pb-12">
+    <div className="flex flex-col text-2xl font-lexend pb-12 dark:text-sand ">
       <h1 className="text-center pt-2">Semaine {moment().week()}</h1>
       <div className="flex flex-col sm:grid sm:grid-cols-4 text-xl font-commi gap-8 px-8 py-4 sm:px-0">
         {weekDays.map((e) =>
@@ -53,7 +53,7 @@ export default function WeeklyAgenda({ rdvGroupByDays, setIsUpdated }) {
               <h2 className="first-letter:capitalize font-lexend pb-1 sm:text-center">
                 {e} :
               </h2>
-              <ul className="bg-sand/40 rounded-r-lg flex flex-col border-l-4 sm:justify-between font-commi border-green px-2 py-2 gap-6">
+              <ul className="bg-sand/40 dark:bg-beige/50 rounded-r-lg flex flex-col border-l-4 sm:justify-between font-commi border-green dark:border-beige px-2 py-2 gap-6">
                 {rdvGroupByDays[e.split(" ")[0]].map((r) => (
                   <li key={r.id}>
                     <div className="flex flex-row justify-between sm:w-68">
@@ -63,14 +63,14 @@ export default function WeeklyAgenda({ rdvGroupByDays, setIsUpdated }) {
                           <button
                             type="button"
                             onClick={() => openModal(r.id)}
-                            className="bg-green active:bg-dkGreen text-xs text-gray-700 active:text-sand shadow px-2 py-1 rounded-md w-20"
+                            className="bg-green dark:bg-dkGreen dark:text-sand active:bg-dkGreen text-xs text-gray-700 active:text-sand shadow px-2 py-1 rounded-md w-20"
                           >
                             Modifier
                           </button>
                           <button
                             type="button"
                             onClick={() => deleteRDV(r.id)}
-                            className="bg-green active:bg-dkGreen active:text-sand shadow px-2 py-1 rounded-md"
+                            className="bg-green dark:bg-dkGreen dark:text-sand active:bg-dkGreen active:text-sand shadow px-2 py-1 rounded-md"
                           >
                             Supprimer
                           </button>
@@ -110,7 +110,7 @@ export default function WeeklyAgenda({ rdvGroupByDays, setIsUpdated }) {
       {rdvGroupByDays && !isClicked ? (
         <button
           type="button"
-          className="fixed bottom-3 left-3 bg-green p-2.5 rounded-full border-black border-4"
+          className="fixed bottom-3 left-3 bg-green dark:bg-sand p-2.5 rounded-full border-black border-4"
           onClick={() => setIsClicked(!isClicked)}
         >
           <img src={edition} alt="modifier/supprimer" width="38" />

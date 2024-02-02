@@ -52,14 +52,14 @@ export default function Contact({
             <button
               type="button"
               onClick={() => openEditModal(id)}
-              className="bg-green active:bg-dkGreen active:text-sand shadow px-2 py-1 rounded-md w-20"
+              className="bg-green active:bg-dkGreen dark:bg-dkGreen dark:text-sand dark:active:bg-green active:text-sand text-xs shadow px-2 py-1 rounded-md w-20"
             >
               Modifier
             </button>
             <button
               type="button"
               onClick={deleteContact}
-              className="bg-green active:bg-dkGreen active:text-sand shadow px-2 py-1 rounded-md"
+              className="bg-green active:bg-dkGreen dark:bg-dkGreen dark:text-sand dark:active:bg-green active:text-sand text-xs shadow px-2 py-1 rounded-md"
             >
               Supprimer
             </button>

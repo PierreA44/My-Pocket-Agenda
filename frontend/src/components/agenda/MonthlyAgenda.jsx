@@ -16,11 +16,11 @@ export default function MonthlyAgenda({ rdvGroupByD }) {
   }
 
   return (
-    <div className="flex flex-col text-2xl gap-2 font-lexend sm:mx-24">
+    <div className="flex flex-col text-2xl gap-2 font-lexend sm:mx-24 dark:text-sand">
       <h1 className="text-center pt-2 first-letter:capitalize">
         {currentMonth}
       </h1>
-      <div className="grid grid-cols-7 text-center pb-2 border-b-green pt-4 border-b-2">
+      <div className="grid grid-cols-7 text-center pb-2 border-b-green dark:border-b-beige pt-4 border-b-4">
         {arrayOfDay.map((d) => (
           <p className="first-letter:capitalize" key={d}>
             {d}
@@ -36,7 +36,7 @@ export default function MonthlyAgenda({ rdvGroupByD }) {
             >
               <p className="relative">
                 {e}
-                <span className="text-dkGreen text-[5rem] absolute -top-8 sm:right-2">
+                <span className="text-dkGreen dark:text-beige text-[5rem] absolute -top-8 sm:right-2">
                   .
                 </span>
               </p>

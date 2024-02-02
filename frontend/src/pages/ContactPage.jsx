@@ -64,7 +64,9 @@ export default function ContactPage() {
 
   return (
     <section className="flex flex-col font-lexend gap-2">
-      <h1 className="text-4xl text-dkGreen px-4 pb-2">Répertoire :</h1>
+      <h1 className="text-4xl text-dkGreen dark:text-sand px-4 pb-2">
+        Répertoire :
+      </h1>
       <div className="flex flex-wrap gap-2 text-gray-700">
         {contacts.map((c) => (
           <Contact
@@ -106,7 +108,7 @@ export default function ContactPage() {
       {contacts[0] && !isClicked ? (
         <button
           type="button"
-          className="fixed bottom-3 left-3 bg-green p-2.5 rounded-full border-black border-4"
+          className="fixed bottom-3 left-3 bg-green dark:bg-sand p-2.5 rounded-full border-black border-4"
           onClick={() => setIsClicked(!isClicked)}
         >
           <img src={edition} alt="modifier/supprimer" width="38" />
@@ -125,7 +127,7 @@ export default function ContactPage() {
         type="button"
         title="nouveau contact"
         onClick={openCreateModal}
-        className="fixed bottom-3 right-3 bg-green rounded-full w-fit p-1 border-4 border-black"
+        className="fixed bottom-3 right-3 bg-green dark:bg-sand rounded-full w-fit p-1 border-4 border-black"
       >
         <img src={plus} alt="plus" width="50" />
       </button>

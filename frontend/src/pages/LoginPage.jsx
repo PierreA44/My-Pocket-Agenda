@@ -31,19 +31,19 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="flex flex-col items-center gap-4 mt-8 bg-beige h-screen">
-      <h1 className="text-dkGreen text-3xl text-center font-lexend">
+    <section className="flex flex-col items-center gap-4 mt-8 h-screen">
+      <h1 className="text-dkGreen dark:text-sand text-3xl text-center font-lexend">
         Connexion
       </h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="shadow font-commi flex flex-col items-center gap-2 text-green text-2xl bg-sand p-6 rounded-md bg-opacity-80"
+        className="shadow font-commi flex flex-col items-center gap-2 text-green dark:text-slate-800 text-2xl bg-sand p-6 rounded-md bg-opacity-80"
       >
         <label htmlFor="email">Email :</label>
         <input
           type="email"
           name="email"
-          className="rounded-md pl-2"
+          className="rounded-md bg-slate-200 pl-2"
           {...register("email", { required: "Veuillez renseigner votre mail" })}
         />
         {errors.email && (
@@ -58,7 +58,7 @@ export default function LoginPage() {
         <input
           type="password"
           name="password"
-          className="rounded-md pl-2"
+          className="rounded-md bg-slate-200 pl-2"
           {...register("password", {
             required: "Veuillez renseigner votre mot-de-passe",
           })}
@@ -73,7 +73,7 @@ export default function LoginPage() {
         )}
         <button
           type="submit"
-          className="bg-green text-sand font-bold active:bg-dkGreen shadow px-2 py-1 mt-4 rounded-md"
+          className="bg-green dark:bg-slate-700 text-sand font-bold active:bg-dkGreen shadow px-2 py-1 mt-4 rounded-md"
         >
           Se connecter
         </button>

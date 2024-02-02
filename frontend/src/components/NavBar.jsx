@@ -1,23 +1,25 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import PropTypes from "prop-types";
+import { useTheme } from "../contexts/ThemeContext";
 import logo from "../assets/logo.png";
+import sun from "../assets/soleil.png";
+import moon from "../assets/lunes.png";
 
 export default function NavBar({ auth, setAuth }) {
-  const [isVisible, setIsVisible] = useState(false);
+  const { theme, handleThemeChange } = useTheme();
   const navigate = useNavigate();
   const navLinks = [
     {
       id: 1,
       path: "/login",
       title: "Se connecter",
-      style: "-mx-4",
+      style: "-mx-1",
     },
     {
       id: 2,
       path: "/registration",
       title: "S'inscrire",
-      style: "-mx-4",
+      style: "-mx-1",
     },
   ];
 
@@ -26,75 +28,79 @@ export default function NavBar({ auth, setAuth }) {
       id: 1,
       path: "/agenda",
       title: "Mon agenda",
-      style: "-mx-7",
+      style: "-mx-4",
     },
     {
       id: 2,
       path: "/contact",
       title: "Mon répertoire",
-      style: "-mx-4",
+      style: "-mx-1",
     },
     {
       id: 3,
       path: "/todolist",
       title: "Mes notes",
-      style: "-mx-4",
+      style: "-mx-1",
     },
   ];
 
   const logOut = () => {
     setAuth("");
     navigate("/");
-    setIsVisible(false);
   };
 
   return (
-    <nav className="flex flex-row items-center font-commi font-bold text-dkGreen text-xl">
+    <nav className="flex flex-row items-center font-commi font-bold text-dkGreen dark:text-sand text-xl">
       <button
         type="button"
-        onClick={() => setIsVisible(!isVisible)}
+        onClick={() => navigate("/agenda")}
         className="w-28 m-6"
       >
         <img src={logo} alt="logo" />
       </button>
       <div className="flex flex-col justify-center items-start">
-        {isVisible && !auth
+        {!auth
           ? navLinks.map((n) => (
               <button
                 type="button"
                 key={n.id}
                 className={n.style}
-                onClick={() => {
-                  navigate(`${n.path}`);
-                  setIsVisible(false);
-                }}
+                onClick={() => navigate(`${n.path}`)}
               >
                 {n.title}
               </button>
             ))
           : null}
 
-        {isVisible && auth ? (
+        {auth ? (
           <>
             {navLinksAuth.map((n) => (
               <button
                 type="button"
                 key={n.id}
                 className={n.style}
-                onClick={() => {
-                  navigate(`${n.path}`);
-                  setIsVisible(false);
-                }}
+                onClick={() => navigate(`${n.path}`)}
               >
                 {n.title}
               </button>
             ))}
-            <button type="button" onClick={logOut} className="-mx-7">
+            <button type="button" onClick={logOut} className="-mx-4">
               Se déconnecter
             </button>
           </>
         ) : null}
       </div>
+      <button
+        type="button"
+        className="fixed top-3 right-3"
+        onClick={handleThemeChange}
+      >
+        {theme === "dark" ? (
+          <img src={sun} alt="soleil" width="40" />
+        ) : (
+          <img src={moon} alt="lune" width="40" />
+        )}
+      </button>
     </nav>
   );
 }

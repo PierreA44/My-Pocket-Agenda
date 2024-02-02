@@ -64,7 +64,9 @@ export default function TodolistPage() {
 
   return (
     <section className="flex flex-col font-lexend gap-2">
-      <h1 className="text-4xl text-dkGreen px-4 pb-2">Notes :</h1>
+      <h1 className="text-4xl text-dkGreen dark:text-sand px-4 pb-2">
+        Notes :
+      </h1>
       <div className="flex flex-wrap gap-2 text-gray-700">
         {todos.map((todo) => (
           <Todo
@@ -83,7 +85,7 @@ export default function TodolistPage() {
         isOpen={isModalVisible}
         onRequestClose={!isModalVisible}
         contentLabel="Edit Skin Types"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+        overlayClassName="fixed inset-0 bg-black/50 flex justify-center items-center"
         className="max-w-md mx-auto"
       >
         {isEdit && (
@@ -105,7 +107,7 @@ export default function TodolistPage() {
       {todos[0] && !isClicked ? (
         <button
           type="button"
-          className="fixed bottom-5 left-5 bg-green p-2.5 rounded-full border-black border-4"
+          className="fixed bottom-5 left-5 bg-green dark:bg-sand p-2.5 rounded-full border-black border-4"
           onClick={() => setIsClicked(!isClicked)}
         >
           <img src={edition} alt="modifier/supprimer" width="38" />
@@ -124,7 +126,7 @@ export default function TodolistPage() {
         type="button"
         title="nouvelle note"
         onClick={openCreateModal}
-        className="fixed bottom-5 right-5 bg-green rounded-full w-fit p-1 border-4 border-black"
+        className="fixed bottom-5 right-5 bg-green dark:bg-sand rounded-full w-fit p-1 border-4 border-black"
       >
         <img src={plus} alt="plus" width="50px" />
       </button>
