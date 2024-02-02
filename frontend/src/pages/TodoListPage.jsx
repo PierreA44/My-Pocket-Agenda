@@ -112,7 +112,8 @@ export default function TodolistPage() {
         >
           <img src={edition} alt="modifier/supprimer" width="38" />
         </button>
-      ) : (
+      ) : null}
+      {todos[0] && isClicked ? (
         <button
           type="button"
           title="annuler"
@@ -121,7 +122,7 @@ export default function TodolistPage() {
         >
           <img src={closeButton} alt="fermer" width="58" />
         </button>
-      )}
+      ) : null}
       <button
         type="button"
         title="nouvelle note"
