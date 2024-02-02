@@ -2,11 +2,19 @@ const express = require("express");
 
 const router = express.Router();
 
-const { read, add, edit, destroy } = require("../controllers/todoControllers");
+const {
+  read,
+  readByTodoID,
+  add,
+  edit,
+  destroy,
+} = require("../controllers/todoControllers");
 
 router.get("/", read);
 
 router.post("/", add);
+
+router.get("/:id", readByTodoID);
 
 router.put("/:id", edit);
 

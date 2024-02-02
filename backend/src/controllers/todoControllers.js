@@ -16,6 +16,22 @@ const read = async (req, res, next) => {
   }
 };
 
+const readByTodoID = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const todo = await tables.todo.readByID(Number(id));
+
+    if (todo === null) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).json(todo);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 const edit = async (req, res, next) => {
   try {
     const { note } = req.body;
@@ -65,4 +81,4 @@ const destroy = async (req, res, next) => {
   }
 };
 
-module.exports = { read, edit, add, destroy };
+module.exports = { read, readByTodoID, edit, add, destroy };

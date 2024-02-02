@@ -13,6 +13,7 @@ export default function AgendaPage() {
   moment.locale("fr");
   const { auth } = useOutletContext();
   const [rdv, setRdv] = useState([]);
+  const [contactsRDV, setContactsRDV] = useState([]);
   const [isUpdated, setIsUpdated] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
   const navigate = useNavigate();
@@ -34,7 +35,10 @@ export default function AgendaPage() {
               Authorization: `Bearer ${auth}`,
             },
           })
-          .then((res) => setRdv(res.data));
+          .then((res) => {
+            setContactsRDV(res.data.ContactsRdv);
+            setRdv(res.data.RDV);
+          });
       } else {
         navigate("/");
       }
@@ -42,6 +46,8 @@ export default function AgendaPage() {
       setIsUpdated(false);
     }
   }, [isMounted, isUpdated]);
+
+  console.info(contactsRDV);
 
   // je récupère la date, la semaine et le mois en cours
   const today = moment().format("L");
@@ -134,8 +140,15 @@ export default function AgendaPage() {
           </button>
         ))}
       </div>
-      {isDaily && <DailyAgenda dailyRDV={dailyRDV} />}
-      {isWeekly && <WeeklyAgenda rdvGroupByDays={rdvGroupByDays} />}
+      {isDaily && (
+        <DailyAgenda dailyRDV={dailyRDV} setIsUpdated={setIsUpdated} />
+      )}
+      {isWeekly && (
+        <WeeklyAgenda
+          rdvGroupByDays={rdvGroupByDays}
+          setIsUpdated={setIsUpdated}
+        />
+      )}
       {isMonthly && <MonthlyAgenda rdvGroupByD={rdvGroupByD} />}
 
       <Modal
@@ -151,9 +164,9 @@ export default function AgendaPage() {
         type="button"
         title="nouveau RDV"
         onClick={openModal}
-        className="absolute bottom-5 right-5 bg-green dark:bg-sand rounded-full w-fit p-1 border-4 border-black"
+        className="fixed bottom-3 right-3 bg-green rounded-full w-fit p-1 border-4 border-black dark:bg-sand"
       >
-        <img src={plus} alt="plus" width="60px" />
+        <img src={plus} alt="plus" width="50px" />
       </button>
     </section>
   );

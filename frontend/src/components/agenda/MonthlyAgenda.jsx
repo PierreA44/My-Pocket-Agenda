@@ -3,7 +3,7 @@ import moment from "moment/min/moment-with-locales";
 
 export default function MonthlyAgenda({ rdvGroupByD }) {
   moment.locale("fr");
-  const currentMonth = moment().format("MMMM");
+  const currentMonth = moment().format("MMMM YYYY");
   const firstDayOfMonth = moment().startOf("month").format("d");
   const numberOfDaysInMonth = moment().daysInMonth();
 
@@ -16,11 +16,11 @@ export default function MonthlyAgenda({ rdvGroupByD }) {
   }
 
   return (
-    <div className="flex flex-col text-2xl gap-2 font-lexend">
+    <div className="flex flex-col text-2xl gap-2 font-lexend sm:mx-24">
       <h1 className="text-center pt-2 first-letter:capitalize">
         {currentMonth}
       </h1>
-      <div className="grid grid-cols-7 text-center pb-2 border-b-green border-b-2">
+      <div className="grid grid-cols-7 text-center pb-2 border-b-green pt-4 border-b-2">
         {arrayOfDay.map((d) => (
           <p className="first-letter:capitalize" key={d}>
             {d}
@@ -30,15 +30,15 @@ export default function MonthlyAgenda({ rdvGroupByD }) {
       <div className="grid grid-cols-7 text-center">
         {arrayOfNumberOfDay.map((e) =>
           Object.keys(rdvGroupByD).includes(`${e}`) ? (
-            <div className="relative">
-              <p
-                className={e === 1 ? `col-start-${firstDayOfMonth}` : null}
-                key={e}
-              >
+            <div
+              className={e === 1 ? `col-start-${firstDayOfMonth}` : null}
+              key={e}
+            >
+              <p className="relative">
                 {e}
-              </p>
-              <p className="text-dkGreen text-[5rem] bottom-9 right-0 absolute">
-                .
+                <span className="text-dkGreen text-[5rem] absolute -top-8 sm:right-2">
+                  .
+                </span>
               </p>
             </div>
           ) : (

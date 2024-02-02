@@ -1,24 +1,40 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useForm } from "react-hook-form";
 import { useOutletContext } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import PropTypes from "prop-types";
-
 import closeButton from "../../assets/bouton-fermer.png";
 
-export default function CreateContact({ closeModal, setIsUpdated }) {
+export default function EditTodo({ closeModal, setIsUpdated, editID }) {
   const { auth } = useOutletContext();
+  const [currentTodo, setCurrentTodo] = useState();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    try {
+      axios
+        .get(`${import.meta.env.VITE_BACKEND_URL}/api/todo/${editID}`, {
+          headers: {
+            Authorization: `Bearer ${auth}`,
+          },
+        })
+        .then((res) => setCurrentTodo(res.data));
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
   const onSubmit = (data) => {
     try {
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, data, {
+        .put(`${import.meta.env.VITE_BACKEND_URL}/api/todo/${editID}`, data, {
           headers: {
             Authorization: `Bearer ${auth}`,
           },
@@ -39,63 +55,20 @@ export default function CreateContact({ closeModal, setIsUpdated }) {
       onSubmit={handleSubmit(onSubmit)}
       className="relative shadow font-commi flex flex-col items-center gap-2 text-green text-2xl bg-sand p-6 rounded-md"
     >
-      <h1 className="font-bold">Nouveau contact</h1>
-
-      <label htmlFor="name">Nom du contact :</label>
+      <label htmlFor="note">Modifier la note :</label>
       <input
         type="text"
-        name="name"
+        name="note"
+        placeholder={currentTodo?.note}
         className="rounded-md pl-2"
-        {...register("name", { required: "Vous devez remplir ce champs" })}
+        {...register("note", { required: "Vous devez remplir ce champs" })}
       />
-      {errors.name && (
+      {errors.note && (
         <p
           role="alert"
           className="bg-red-600 text-beige text-sm px-1 py-0.5 rounded-md"
         >
-          {errors.name?.message}
-        </p>
-      )}
-      <label htmlFor="email">Email :</label>
-      <input
-        type="email"
-        name="email"
-        className="rounded-md pl-2"
-        {...register("email", {
-          required: "Vous devez remplir ce champs",
-          pattern: {
-            value: /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/,
-            message: "Votre email n'a pas la bonne syntaxe, ex: johndoe@doe.fr",
-          },
-        })}
-      />
-      {errors.email && (
-        <p
-          role="alert"
-          className="bg-red-600 text-beige text-sm px-1 py-0.5 rounded-md"
-        >
-          {errors.email?.message}
-        </p>
-      )}
-      <label htmlFor="phone">Numéro de téléphone :</label>
-      <input
-        type="text"
-        name="phone"
-        className="rounded-md pl-2"
-        {...register("phone_number", {
-          pattern: {
-            value: /[0-9]{10}/,
-            message: "Le numéro doit comporter 10 chiffres ",
-          },
-          valueAsNumber: "Un nombre est obligatoire",
-        })}
-      />
-      {errors.phone_number && (
-        <p
-          role="alert"
-          className="bg-red-600 text-beige text-sm px-1 py-0.5 rounded-md"
-        >
-          {errors.phone_number?.message}
+          {errors.note?.message}
         </p>
       )}
       <button
@@ -115,7 +88,8 @@ export default function CreateContact({ closeModal, setIsUpdated }) {
   );
 }
 
-CreateContact.propTypes = {
+EditTodo.propTypes = {
   closeModal: PropTypes.func.isRequired,
   setIsUpdated: PropTypes.func.isRequired,
+  editID: PropTypes.number.isRequired,
 };
