@@ -9,14 +9,16 @@ const {
   edit,
   destroy,
 } = require("../controllers/rdvControllers");
+const { parseTimerNEW, parseTimerEDIT } = require("../services/parseTimer");
+const { validateRdv } = require("../middlewares/validateRDV");
 
 router.get("/", read);
 
-router.post("/", add);
+router.post("/", parseTimerNEW, validateRdv, add);
 
 router.get("/:id", readByRDVId);
 
-router.put("/:id", edit);
+router.put("/:id", parseTimerEDIT, validateRdv, edit);
 
 router.delete("/:id", destroy);
 

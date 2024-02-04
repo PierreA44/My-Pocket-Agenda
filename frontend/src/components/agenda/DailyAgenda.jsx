@@ -39,7 +39,7 @@ export default function DailyAgenda({ dailyRDV, setIsUpdated }) {
   };
 
   return (
-    <section className="flex flex-col sm:items-center gap-4 px-8 text-2xl font-lexend  dark:text-sand">
+    <section className="flex flex-col sm:items-center gap-4 px-8 text-2xl font-lexend  dark:text-sand h-screen">
       <h1 className="first-letter:capitalize text-center py-4">
         {moment().format("dddd Do MMMM HH:mm")}
       </h1>
@@ -47,11 +47,17 @@ export default function DailyAgenda({ dailyRDV, setIsUpdated }) {
         {dailyRDV[0] ? (
           dailyRDV.map((d) => (
             <div
-              className="bg-sand/40 dark:bg-beige/40 rounded-r-lg flex flex-col border-l-4 justify-between font-commi border-green dark:border-beige px-2 py-2 gap-2"
+              className={
+                moment(d.end_rdv).isBefore()
+                  ? "bg-sand/40 text-[#b2b1b0] dark:bg-beige/40 rounded-r-lg flex flex-col border-l-4 justify-between font-commi border-green dark:border-beige p-2 gap-2"
+                  : "bg-sand/40 dark:bg-beige/40 rounded-r-lg flex flex-col border-l-4 justify-between font-commi border-green dark:border-beige p-2 gap-2"
+              }
               key={d.id}
             >
               <div className="flex flex-row justify-between sm:w-72">
-                <p className="text-lg font-bold ">{d.start_rdv}</p>
+                <p className="text-lg font-bold ">
+                  {moment(d.start_rdv).format("LT")}
+                </p>
                 {isClicked && (
                   <div className="flex flex-row gap-2 text-xs text-gray-700">
                     <button
@@ -71,10 +77,19 @@ export default function DailyAgenda({ dailyRDV, setIsUpdated }) {
                   </div>
                 )}
               </div>
-              <p className="font-lexend px-2">{d.title}</p>
+              <p className="font-lexend px-2 first-letter:capitalize">
+                {d.title}
+              </p>
 
-              <p className="px-4 text-xl font-bold">{d?.description}</p>
-              <p className="text-lg  font-bold">{d.end_rdv}</p>
+              {d.description && (
+                <p className="px-4 text-xl font-bold">{d.description}</p>
+              )}
+              {d.contact_rdv && (
+                <p className="px-4 text-xl font-bold">avec : {d.contact_rdv}</p>
+              )}
+              <p className="text-lg  font-bold">
+                {moment(d.end_rdv).format("LT")}
+              </p>
             </div>
           ))
         ) : (

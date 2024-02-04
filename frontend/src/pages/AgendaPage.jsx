@@ -13,7 +13,6 @@ export default function AgendaPage() {
   moment.locale("fr");
   const { auth } = useOutletContext();
   const [rdv, setRdv] = useState([]);
-  const [contactsRDV, setContactsRDV] = useState([]);
   const [isUpdated, setIsUpdated] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
   const navigate = useNavigate();
@@ -36,8 +35,7 @@ export default function AgendaPage() {
             },
           })
           .then((res) => {
-            setContactsRDV(res.data.ContactsRdv);
-            setRdv(res.data.RDV);
+            setRdv(res.data);
           });
       } else {
         navigate("/");
@@ -53,17 +51,15 @@ export default function AgendaPage() {
   const month = moment().format("MMMM");
 
   rdv.forEach((r) => {
-    const day = moment(r.scheduled_date).format("dddd");
-    const d = moment(r.scheduled_date).format("l").split("/")[0];
+    const day = moment(r.start_rdv).format("dddd");
+    const d = moment(r.start_rdv).format("l").split("/")[0];
     Object.assign(r, { day });
     Object.assign(r, { d });
   });
 
-  const dailyRDV = rdv.filter(
-    (r) => today === moment(r.scheduled_date).format("L")
-  );
+  const dailyRDV = rdv.filter((r) => today === moment(r.start_rdv).format("L"));
 
-  const weeklyRDV = rdv.filter((r) => week === moment(r.scheduled_date).week());
+  const weeklyRDV = rdv.filter((r) => week === moment(r.start_rdv).week());
   const rdvGroupByDays = Object.groupBy(weeklyRDV, ({ day }) => day);
 
   const monthlyRDV = rdv.filter(
@@ -116,10 +112,8 @@ export default function AgendaPage() {
     },
   ];
 
-  console.info(contactsRDV);
-
   return (
-    <section className="flex flex-col font-lexend gap-2">
+    <section className="flex flex-col font-lexend gap-2 min-h-screen pb-24">
       <h1 className="text-4xl text-dkGreen dark:text-sand px-4 pb-2">
         Agenda :
       </h1>

@@ -7,17 +7,19 @@ class RdvManager extends AbstractManager {
     super({ table: "rdv" });
   }
 
-  async create(title, date, start, end, description, id) {
+  async create(title, start, end, description, id) {
     const [result] = await this.database.query(
-      `INSERT INTO ${this.table} (title, scheduled_date, start_rdv, end_rdv, description, user_id) VALUES (?, ?, ?, ?, ?, ?)`,
-      [title, date, start, end, description, id]
+      `INSERT INTO ${this.table} (title, start_rdv, end_rdv, description, user_id) VALUES (?, ?, ?, ?, ?)`,
+      [title, start, end, description, id]
     );
     return result.insertId;
   }
 
   async read(id) {
     const [rows] = await this.database.query(
-      `SELECT *  FROM ${this.table} WHERE rdv.user_id=? ORDER BY rdv.scheduled_date ASC , rdv.start_rdv ASC`,
+      `SELECT rdv.*, rc.id AS contact_id, c.name AS contact_rdv
+      FROM ${this.table} LEFT JOIN rdv_contact AS rc ON rdv.id = rc.rdv_id LEFT JOIN contact AS c ON rc.contact_id = c.id
+      WHERE rdv.user_id=? ORDER BY rdv.start_rdv ASC`,
       [id]
     );
     return rows;
@@ -33,13 +35,21 @@ class RdvManager extends AbstractManager {
 
   async readCount(id) {
     const [rows] = await this.database.query(
-      `SELECT COUNT(id) AS count FROM ${this.table} WHERE scheduled_date= DATE(NOW()) AND user_id=?`,
+      `SELECT COUNT(id) AS count FROM ${this.table} WHERE start_rdv = DATE(NOW()) AND user_id=?`,
       [id]
     );
     return rows[0];
   }
 
-  async update(title, date, start, end, description, id) {
+  async readByDateAndUserId(startDate, id) {
+    const [rows] = await this.database.query(
+      `SELECT id, title, start_rdv, end_rdv FROM ${this.table} WHERE start_rdv LIKE ? and user_id = ?`,
+      [`${startDate}%`, id]
+    );
+    return rows;
+  }
+
+  async update(title, startDate, endDate, description, id) {
     const sql = `UPDATE ${this.table} SET `;
 
     const sqlParams = [];
@@ -51,19 +61,14 @@ class RdvManager extends AbstractManager {
       sqlParams.push(title);
     }
 
-    if (date !== "") {
-      sqlClause.date = "scheduled_date = ?";
-      sqlParams.push(date);
+    if (startDate !== "") {
+      sqlClause.startDate = "start_rdv = ?";
+      sqlParams.push(startDate);
     }
 
-    if (start !== "") {
-      sqlClause.start = "start_rdv = ?";
-      sqlParams.push(start);
-    }
-
-    if (end !== "") {
-      sqlClause.end = "end_rdv = ?";
-      sqlParams.push(end);
+    if (endDate !== "") {
+      sqlClause.endDate = "end_rdv = ?";
+      sqlParams.push(endDate);
     }
 
     if (description !== "") {
