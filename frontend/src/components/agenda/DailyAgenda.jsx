@@ -43,7 +43,7 @@ export default function DailyAgenda({ dailyRDV, setIsUpdated }) {
       <h1 className="first-letter:capitalize text-center py-4">
         {moment().format("dddd Do MMMM HH:mm")}
       </h1>
-      <div className="flex sm:flex-row flex-col gap-8 sm:gap-16">
+      <div className="flex sm:flex-row sm:flex-wrap sm:justify-center flex-col gap-8 sm:gap-16">
         {dailyRDV[0] ? (
           dailyRDV.map((d) => (
             <div

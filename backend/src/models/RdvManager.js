@@ -1,3 +1,4 @@
+const moment = require("moment");
 const AbstractManager = require("./AbstractManager");
 
 class RdvManager extends AbstractManager {
@@ -17,9 +18,9 @@ class RdvManager extends AbstractManager {
 
   async read(id) {
     const [rows] = await this.database.query(
-      `SELECT rdv.*, rc.id AS contact_id, c.name AS contact_rdv
+      `SELECT rdv.*, GROUP_CONCAT(rc.id) AS contact_id, GROUP_CONCAT(c.name) AS contact_rdv
       FROM ${this.table} LEFT JOIN rdv_contact AS rc ON rdv.id = rc.rdv_id LEFT JOIN contact AS c ON rc.contact_id = c.id
-      WHERE rdv.user_id=? ORDER BY rdv.start_rdv ASC`,
+      WHERE rdv.user_id=? GROUP BY rdv.id ORDER BY rdv.start_rdv ASC`,
       [id]
     );
     return rows;
@@ -27,16 +28,18 @@ class RdvManager extends AbstractManager {
 
   async readByID(id) {
     const [rows] = await this.database.query(
-      `SELECT * FROM ${this.table} WHERE id=?`,
+      `SELECT rdv.*, GROUP_CONCAT(rc.id) AS contact_id, GROUP_CONCAT(c.name) AS contact_rdv FROM ${this.table} LEFT JOIN rdv_contact AS rc ON rdv.id = rc.rdv_id LEFT JOIN contact AS c ON rc.contact_id = c.id
+      WHERE rdv.id=?`,
       [id]
     );
     return rows[0];
   }
 
   async readCount(id) {
+    const today = moment().format("YYYY-MM-DD");
     const [rows] = await this.database.query(
-      `SELECT COUNT(id) AS count FROM ${this.table} WHERE start_rdv = DATE(NOW()) AND user_id=?`,
-      [id]
+      `SELECT COUNT(id) AS count FROM ${this.table} WHERE start_rdv LIKE ? AND user_id=?`,
+      [`${today}%`, id]
     );
     return rows[0];
   }

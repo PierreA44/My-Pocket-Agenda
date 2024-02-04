@@ -8,7 +8,6 @@ export default function MonthlyAgenda({ rdvGroupByD }) {
   const [rdvVisible, setRdvVisible] = useState([]);
   const currentMonth = moment().format("MMMM YYYY");
   const firstDayOfMonth = moment().startOf("month").format("d");
-  const colStart = "col-start-";
   const numberOfDaysInMonth = moment().daysInMonth();
   const currentDay = parseInt(moment().format("D"), 10);
 
@@ -27,6 +26,35 @@ export default function MonthlyAgenda({ rdvGroupByD }) {
     divRef.current.scrollIntoView();
   };
 
+  let colStart = "";
+  switch (firstDayOfMonth) {
+    case "1":
+      colStart = "col-start-1";
+      break;
+    case "2":
+      colStart = "col-start-2";
+      break;
+    case "3":
+      colStart = "col-start-3";
+      break;
+    case "4":
+      colStart = "col-start-4";
+      break;
+    case "5":
+      colStart = "col-start-5";
+      break;
+    case "6":
+      colStart = "col-start-6";
+      break;
+    case "7":
+      colStart = "col-start-7";
+      break;
+
+    default:
+      colStart = "col-start-1";
+      break;
+  }
+
   return (
     <div className="flex flex-col text-2xl gap-2 font-lexend sm:mx-24 dark:text-sand h-full">
       <h1 className="text-center pt-2 first-letter:capitalize">
@@ -43,10 +71,7 @@ export default function MonthlyAgenda({ rdvGroupByD }) {
         {firstDayOfMonth &&
           arrayOfNumberOfDay.map((e) =>
             Object.keys(rdvGroupByD).includes(`${e}`) ? (
-              <div
-                className={e === 1 ? colStart + firstDayOfMonth : null}
-                key={e}
-              >
+              <div className={e === 1 ? colStart : null} key={e}>
                 <button type="button" onClick={() => handleClick(e)}>
                   <p
                     className={
@@ -69,7 +94,7 @@ export default function MonthlyAgenda({ rdvGroupByD }) {
                 </button>
               </div>
             ) : (
-              <div className={e === 1 ? colStart + firstDayOfMonth : null}>
+              <div className={e === 1 ? colStart : null}>
                 <p
                   className={
                     e === currentDay

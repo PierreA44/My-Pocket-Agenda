@@ -6,12 +6,15 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import closeButton from "../../assets/bouton-fermer.png";
+import cancel from "../../assets/cancel.png";
 
 export default function EditRDV({ closeModal, setIsUpdated, editID }) {
   const { auth } = useOutletContext();
   const [userContacts, setUserContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState([]);
   const [userRDV, setUserRDV] = useState();
+  const [deleted, setDeleted] = useState(false);
+  const [isMounted, setIsMounted] = useState(true);
   const {
     register,
     handleSubmit,
@@ -20,21 +23,40 @@ export default function EditRDV({ closeModal, setIsUpdated, editID }) {
   } = useForm();
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/rdv/${editID}`, {
-        headers: {
-          Authorization: `Bearer ${auth}`,
-        },
-      })
-      .then((res) => setUserRDV(res.data));
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, {
-        headers: {
-          Authorization: `Bearer ${auth}`,
-        },
-      })
-      .then((res) => setUserContacts(res.data));
-  }, []);
+    if (isMounted || deleted) {
+      axios
+        .get(`${import.meta.env.VITE_BACKEND_URL}/api/rdv/${editID}`, {
+          headers: {
+            Authorization: `Bearer ${auth}`,
+          },
+        })
+        .then((res) => setUserRDV(res.data));
+      axios
+        .get(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, {
+          headers: {
+            Authorization: `Bearer ${auth}`,
+          },
+        })
+        .then((res) => setUserContacts(res.data));
+
+      setDeleted(false);
+      setIsMounted(false);
+    }
+  }, [isMounted, deleted]);
+
+  const arrayContact = [];
+
+  // if (userRDV && userRDV?.contact_rdv !== null) {
+  //   const arrayContactName = userRDV.contact_rdv.split(",");
+  //   const arrayContactID = userRDV.contact_id.split(",");
+  //   for (let i = 0; i < arrayContactName.length; i = +1) {
+  //     arrayContact.push({
+  //       id: Number(arrayContactID[i]),
+  //       name: arrayContactName[i],
+  //     });
+  //   }
+  // }
+  console.info(arrayContact);
 
   if (watch("contacts") && !selectedContact.includes(watch("contacts"))) {
     setSelectedContact([...selectedContact, watch("contacts")]);
@@ -44,6 +66,24 @@ export default function EditRDV({ closeModal, setIsUpdated, editID }) {
   selectedContact.forEach((c) =>
     contactsSimplify.push(userContacts.find((u) => u.id === Number(c)))
   );
+
+  const deleteContact = async (id) => {
+    try {
+      await axios
+        .delete(`${import.meta.env.VITE_BACKEND_URL}/api/rdv/contact/${id}`, {
+          headers: {
+            Authorization: `Bearer ${auth}`,
+          },
+        })
+        .then((res) => {
+          toast.success(res.data.message);
+          setDeleted(true);
+          setIsUpdated(true);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const onSubmit = (data) => {
     const newData = { ...data, selectedContact };
@@ -137,10 +177,29 @@ export default function EditRDV({ closeModal, setIsUpdated, editID }) {
         rows="2"
         {...register("description")}
       />
-      <label htmlFor="contact">Ajouter un de vos contacts ?</label>
+      <label htmlFor="contact">Ajouter / modifier les contacts ?</label>
       {contactsSimplify.map((c) => (
         <p key={c.id}>{c.name}</p>
       ))}
+      {userRDV &&
+        userRDV.contact_rdv !== null &&
+        arrayContact.map((e) => (
+          <div className="flex flex-row gap-2 items-center" key={e.id}>
+            <input
+              type="text"
+              value={e.name}
+              className="w-24 px-2 text-center rounded-md"
+            />
+            <button
+              type="button"
+              title="supprimer ce contact"
+              onClick={() => deleteContact(e.id)}
+              className="w-6"
+            >
+              <img src={cancel} alt="supprimer" />
+            </button>
+          </div>
+        ))}
       <select
         name="contact"
         className="rounded-md pl-4"

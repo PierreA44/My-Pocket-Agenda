@@ -123,4 +123,20 @@ const destroy = async (req, res, next) => {
   }
 };
 
-module.exports = { read, readByRDVId, edit, add, destroy };
+const destroyContact = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const deletedContact = await tables.rdv_contact.deleteByID(Number(id));
+
+    if (deletedContact === null) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).json({ message: "Contact retiré de ce rdv" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { read, readByRDVId, edit, add, destroy, destroyContact };

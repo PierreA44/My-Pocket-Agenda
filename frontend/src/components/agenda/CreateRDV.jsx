@@ -62,7 +62,7 @@ export default function CreateRDV({ closeModal, setIsUpdated }) {
       className="relative shadow font-commi flex flex-col items-center gap-2 text-green text-xl bg-sand p-6 rounded-md"
     >
       <h1 className="text-2xl font-lexend">Nouveau RDV</h1>
-      <label htmlFor="title">Titre :</label>
+      <label htmlFor="title">Titre *</label>
       <input
         type="text"
         name="title"
@@ -77,7 +77,7 @@ export default function CreateRDV({ closeModal, setIsUpdated }) {
           {errors.title?.message}
         </p>
       )}
-      <label htmlFor="date">Date :</label>
+      <label htmlFor="date">Date *</label>
       <input
         type="date"
         name="date"
@@ -100,7 +100,7 @@ export default function CreateRDV({ closeModal, setIsUpdated }) {
           {errors.title?.message}
         </p>
       )}
-      <label htmlFor="start">Heure de début :</label>
+      <label htmlFor="start">Heure de début *</label>
       <input
         type="time"
         name="start"
@@ -116,7 +116,7 @@ export default function CreateRDV({ closeModal, setIsUpdated }) {
           {errors.start?.message}
         </p>
       )}
-      <label htmlFor="end">Heure de fin :</label>
+      <label htmlFor="end">Heure de fin *</label>
       <input
         type="time"
         name="end"
@@ -132,7 +132,7 @@ export default function CreateRDV({ closeModal, setIsUpdated }) {
           {errors.end?.message}
         </p>
       )}
-      <label htmlFor="description">Détails :</label>
+      <label htmlFor="description">Informations complémentaires</label>
       <textarea
         name="description"
         className="rounded-md pl-4"
@@ -140,7 +140,7 @@ export default function CreateRDV({ closeModal, setIsUpdated }) {
         rows="2"
         {...register("description")}
       />
-      <label htmlFor="contact">Ajouter un de vos contacts ?</label>
+      <label htmlFor="contact">Lier un contacts à ce rdv ?</label>
       {contactsSimplify.map((c) => (
         <p key={c.id}>{c.name}</p>
       ))}
@@ -154,6 +154,7 @@ export default function CreateRDV({ closeModal, setIsUpdated }) {
           <option value={c.id}>{c.name}</option>
         ))}
       </select>
+      <p className="text-sm">* champs obligatoires</p>
       <button
         type="button"
         onClick={() => closeModal()}

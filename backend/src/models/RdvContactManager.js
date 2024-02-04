@@ -38,6 +38,14 @@ class RdvContactManager extends AbstractManager {
     );
     return result.affectedRows;
   }
+
+  async deleteByID(id) {
+    const [result] = await this.database.query(
+      `DELETE FROM ${this.table} WHERE id=?`,
+      [id]
+    );
+    return result.affectedRows;
+  }
 }
 
 module.exports = RdvContactManager;
