@@ -49,10 +49,11 @@ export default function CreateRDV({ closeModal, setIsUpdated }) {
         .then((res) => {
           toast.success(res.data.message);
           setIsUpdated(true);
-        });
-      closeModal();
+          closeModal();
+        })
+        .catch((error) => toast.error(error.response.data.message));
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.error(error.response.data.message);
     }
   };
   return (

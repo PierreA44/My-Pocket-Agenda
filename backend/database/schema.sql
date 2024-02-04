@@ -30,9 +30,8 @@ CREATE TABLE contact (
 CREATE TABLE rdv (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(150) NOT NULL,
-  scheduled_date DATETIME NOT NULL,
-  start_rdv VARCHAR(50) NOT NULL,
-  end_rdv VARCHAR(50) NOT NULL,
+  start_rdv DATETIME NOT NULL,
+  end_rdv DATETIME NOT NULL,
   description TEXT,
   user_id INT NOT NULL,
   CONSTRAINT FOREIGN KEY (user_id) REFERENCES user(id)

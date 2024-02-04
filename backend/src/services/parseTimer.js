@@ -1,43 +1,74 @@
-const parseTimer = async (req, res, next) => {
+const moment = require("moment");
+const tables = require("../tables");
+
+const parseTimerNEW = async (req, res, next) => {
   try {
-    const { startH, startM, endH, endM } = req.body;
+    const { date, start, end } = req.body;
 
-    let start = "";
-    let end = "";
+    const startRDV = `${date} ${start}:00`;
+    const endRDV = `${date} ${end}:00`;
 
-    if (startH < 10 && startM < 10) {
-      start = `0${startH}:0${startM}`;
-    }
-    if (startH < 10 && startM > 10) {
-      start = `0${startH}:${startM}`;
-    }
-    if (startH > 10 && startM < 10) {
-      start = `${startH}:0${startM}`;
-    }
-    if (startH > 10 && startM > 10) {
-      start = `${startH}:${startM}`;
-    }
-
-    if (endH < 10 && endM < 10) {
-      end = `0${endH}:0${endM}`;
-    }
-    if (endH < 10 && endM > 10) {
-      end = `0${endH}:${endM}`;
-    }
-    if (endH > 10 && endM < 10) {
-      end = `${endH}:0${endM}`;
-    }
-    if (endH > 10 && endM > 10) {
-      end = `${endH}:${endM}`;
-    }
-
-    req.body.start = start;
-    req.body.end = end;
-
+    req.body.startRdv = startRDV;
+    req.body.endRdv = endRDV;
     next();
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { parseTimer };
+const parseTimerEDIT = async (req, res, next) => {
+  try {
+    const { date, start, end } = req.body;
+    const { id } = req.params;
+
+    if (date === "" && start === "" && end === "") {
+      req.body.startRdv = "";
+      req.body.endRdv = "";
+      next();
+    }
+    const editRdv = await tables.rdv.readByID(Number(id));
+    const dateBase = moment(editRdv.end_rdv).format("YYYY-MM-DD");
+    const startBase = moment(editRdv.start_rdv).format("LT");
+    const endBase = moment(editRdv.end_rdv).format("LT");
+
+    if (date === "" && start === "" && end !== "") {
+      req.body.startRdv = `${dateBase} ${startBase}:00`;
+      req.body.endRdv = `${dateBase} ${end}:00`;
+      next();
+    }
+    if (date === "" && start !== "" && end === "") {
+      req.body.startRdv = `${dateBase} ${start}:00`;
+      req.body.endRdv = `${dateBase} ${endBase}:00`;
+      next();
+    }
+    if (date !== "" && start === "" && end === "") {
+      req.body.startRdv = `${date} ${startBase}:00`;
+      req.body.endRdv = `${date} ${endBase}:00`;
+      next();
+    }
+    if (date !== "" && start !== "" && end === "") {
+      req.body.startRdv = `${date} ${end}:00`;
+      req.body.endRdv = `${date} ${endBase}:00`;
+      next();
+    }
+    if (date !== "" && start === "" && end !== "") {
+      req.body.startRdv = `${date} ${startBase}:00`;
+      req.body.endRdv = `${date} ${end}:00`;
+      next();
+    }
+    if (date === "" && start !== "" && end !== "") {
+      req.body.startRdv = `${dateBase} ${start}:00`;
+      req.body.endRdv = `${dateBase} ${end}:00`;
+      next();
+    }
+    if (date !== "" && start !== "" && end !== "") {
+      req.body.startRdv = `${date} ${start}:00`;
+      req.body.endRdv = `${date} ${end}:00`;
+      next();
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { parseTimerNEW, parseTimerEDIT };

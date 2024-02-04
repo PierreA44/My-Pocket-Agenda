@@ -43,6 +43,8 @@ export default function WeeklyAgenda({ rdvGroupByDays, setIsUpdated }) {
     }
   };
 
+  const currentDay = moment().format("L");
+
   return (
     <div className="flex flex-col text-2xl font-lexend pb-12 dark:text-sand ">
       <h1 className="text-center pt-2">Semaine {moment().week()}</h1>
@@ -50,14 +52,38 @@ export default function WeeklyAgenda({ rdvGroupByDays, setIsUpdated }) {
         {weekDays.map((e) =>
           Object.keys(rdvGroupByDays).includes(e.split(" ")[0]) ? (
             <div key={e}>
-              <h2 className="first-letter:capitalize font-lexend pb-1 sm:text-center">
-                {e} :
-              </h2>
-              <ul className="bg-sand/40 dark:bg-beige/50 rounded-r-lg flex flex-col border-l-4 sm:justify-between font-commi border-green dark:border-beige px-2 py-2 gap-6">
+              <div className="relative">
+                {e === moment().format("dddd Do MMMM") && (
+                  <p className="text-green dark:text-sand text-[8rem] absolute -top-11 -left-2">
+                    .
+                  </p>
+                )}
+                <h2 className="first-letter:capitalize font-lexend text-center">
+                  {e} :
+                </h2>
+              </div>
+              <ul
+                className={
+                  e === moment().format("dddd Do MMMM")
+                    ? "bg-sand/40 dark:bg-beige/50 rounded-br-lg flex flex-col border-l-8 border-t-8 sm:justify-between font-commi border-green dark:border-beige px-2 py-2 gap-6"
+                    : "bg-sand/40 dark:bg-beige/50 rounded-r-lg flex flex-col border-l-4 sm:justify-between font-commi border-green dark:border-beige px-2 py-2 gap-6"
+                }
+              >
                 {rdvGroupByDays[e.split(" ")[0]].map((r) => (
-                  <li key={r.id}>
+                  <li
+                    key={r.id}
+                    className={
+                      moment(moment(r.start_rdv).format("L")).isBefore(
+                        currentDay
+                      )
+                        ? "rounded-md p-1 text-[#b2b1b0]"
+                        : " rounded-md p-1 "
+                    }
+                  >
                     <div className="flex flex-row justify-between sm:w-68">
-                      <p className="text-sm">{r.start_rdv}</p>
+                      <p className="text-sm">
+                        {moment(r.start_rdv).format("LT")}
+                      </p>
                       {isClicked && (
                         <div className="flex flex-row gap-2 text-xs text-gray-700">
                           <button
@@ -77,20 +103,34 @@ export default function WeeklyAgenda({ rdvGroupByDays, setIsUpdated }) {
                         </div>
                       )}
                     </div>
-                    <p className="pl-4 font-bold">{r.title}</p>
-                    <p className="pl-6 text-lg">{r.description}</p>
-                    <p className="text-sm">{r.end_rdv}</p>
+                    <p className="pl-4 font-bold first-letter:capitalize">
+                      {r.title}
+                    </p>
+                    {r.description && (
+                      <p className="pl-6 text-lg">{r.description}</p>
+                    )}
+                    {r.contact_rdv && (
+                      <p className="pl-6 text-lg">avec : {r.contact_rdv}</p>
+                    )}
+                    <p className="text-sm">{moment(r.end_rdv).format("LT")}</p>
                   </li>
                 ))}
               </ul>
             </div>
           ) : (
-            <h2
-              key={e}
-              className="first-letter:capitalize font-lexend sm:text-center"
-            >
-              {e}
-            </h2>
+            <div className="relative">
+              {e === moment().format("dddd Do MMMM") && (
+                <p className="text-green dark:text-sand text-[8rem] absolute -top-11 -left-2">
+                  .
+                </p>
+              )}
+              <h2
+                key={e}
+                className="first-letter:capitalize font-lexend text-center"
+              >
+                {e}
+              </h2>
+            </div>
           )
         )}
         <Modal

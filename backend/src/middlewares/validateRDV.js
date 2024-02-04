@@ -1,86 +1,53 @@
-// const tables = require("../tables");
+const moment = require("moment");
+const tables = require("../tables");
 
-// const validateRdv = aync (req, res, next) => {
-//   try {
-//     const { date, start, end } = req.body;
-//     const { sub } = req.auth;
+moment.locale("fr");
 
-//     const existantsRdv = await tables.rdv.readByDateAndUserId(
-//       date,
-//       Number(sub)
-//     );
+const validateRdv = async (req, res, next) => {
+  try {
+    const { startRdv, endRdv } = req.body;
+    const { sub } = req.auth;
+    const { id } = req.params;
 
-//     if (existantsRdv) {
-//       const startH = [];
-//       const startM = [];
-//       const endH = [];
-//       const endM = [];
+    const existantsRdv = await tables.rdv.readByDateAndUserId(
+      moment(startRdv).format("YYYY-MM-DD"),
+      Number(sub)
+    );
 
-//       existantsRdv.forEach((e) => {
-//         startH.push(parseInt(e.start_rdv.slice(0, 2), 10));
-//         startM.push(parseInt(e.start_rdv.slice(3, 5), 10));
-//         endH.push(parseInt(e.end_rdv.slice(0, 2), 10));
-//         endM.push(parseInt(e.end_rdv.slice(3, 5), 10));
-//       });
+    if (existantsRdv === null) {
+      next();
+    } else {
+      const authorized = [];
 
-//       const A = parseInt(start.slice(0, 2), 10);
-//       const B = parseInt(start.slice(3, 5), 10);
-//       const C = parseInt(end.slice(0, 2), 10);
-//       const D = parseInt(end.slice(3, 5), 10);
+      for (let i = 0; i < existantsRdv.length; i += 1) {
+        if (existantsRdv[i].id === Number(id)) {
+          // eslint-disable-next-line no-continue
+          continue;
+        }
+        authorized.push(
+          moment(startRdv).isBetween(
+            existantsRdv[i].start_rdv,
+            existantsRdv[i].end_rdv
+          )
+        );
+        authorized.push(
+          moment(endRdv).isBetween(
+            existantsRdv[i].start_rdv,
+            existantsRdv[i].end_rdv
+          )
+        );
+      }
+      if (authorized.includes(true)) {
+        res
+          .status(403)
+          .json({ message: "Vous avez déjà un rdv sur cette plage horaire !" });
+      } else {
+        next();
+      }
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 
-//       for (let i = 0; i < startH.length; i += 1) {
-//         if (A > startH[i] && A < endH[i]) {
-//           return res.status(403).json({
-//             message: "Vous avez déjà un rdv de prévu sur cette plage horaire !",
-//           });
-//         }
-//         if (A === startH[i] && B > startM[i]) {
-//           return res.status(403).json({
-//             message: "Vous avez déjà un rdv de prévu sur cette plage horaire !",
-//           });
-//         }
-//         if (A === startH[i] && B < startM[i] && C > startH[i]) {
-//           return res.status(403).json({
-//             message: "Vous avez déjà un rdv de prévu sur cette plage horaire !",
-//           });
-//         }
-//         if (
-//           A === startH[i] &&
-//           B < startM[i] &&
-//           C === startH[i] &&
-//           D > startM[i]
-//         ) {
-//           return res.status(403).json({
-//             message: "Vous avez déjà un rdv de prévu sur cette plage horaire !",
-//           });
-//         }
-//         if (
-//           A === startH[i] &&
-//           B < startM[i] &&
-//           C === startH[i] &&
-//           D < startM[i]
-//         ) {
-//           return next();
-//         }
-//         if (A < startH[i] && C < startH[i]) {
-//           return next();
-//         }
-//         if (A < startH[i] && C === startH[i] && D <= startM[i]) {
-//           return next();
-//         }
-//         if (A < startH[i] && C === startH[i] && D > startM[i]) {
-//           return res.status(403).json({
-//             message: "Vous avez déjà un rdv de prévu sur cette plage horaire !",
-//           });
-//         }
-//         if (A > startH[i]) {
-//           return next();
-//         }
-//       }
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-// module.exports = { validateRdv };
+module.exports = { validateRdv };

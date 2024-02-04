@@ -57,7 +57,8 @@ export default function EditRDV({ closeModal, setIsUpdated, editID }) {
         .then((res) => {
           toast.success(res.data.message);
           setIsUpdated(true);
-        });
+        })
+        .catch((err) => toast.error(err.response.data.message));
       closeModal();
     } catch (error) {
       toast.error(error.response.data.message);

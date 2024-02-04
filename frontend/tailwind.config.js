@@ -3,6 +3,9 @@ module.exports = {
   darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    backgroundImage: {
+      cross: "url('./assets/cross-test.png')",
+    },
     extend: {
       colors: {
         beige: "#F9EFDB",
